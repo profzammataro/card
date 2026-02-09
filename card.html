@@ -1,0 +1,737 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Le Mie Card Supermercato</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        header {
+            background: white;
+            padding: 20px;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            margin-bottom: 30px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .header-left {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .logo {
+            width: 50px;
+            height: 50px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 28px;
+            cursor: pointer;
+            transition: transform 0.2s;
+        }
+
+        .logo:hover {
+            transform: scale(1.05);
+        }
+
+        h1 {
+            color: #333;
+            font-size: 28px;
+        }
+
+        .mode-indicator {
+            background: #f0f0f0;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 14px;
+            color: #666;
+        }
+
+        .mode-indicator.edit-mode {
+            background: #fef3c7;
+            color: #92400e;
+        }
+
+        .add-card-btn {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 10px;
+            font-size: 16px;
+            cursor: pointer;
+            display: none;
+            transition: transform 0.2s;
+        }
+
+        .add-card-btn:hover {
+            transform: translateY(-2px);
+        }
+
+        .add-card-btn.visible {
+            display: block;
+        }
+
+        .cards-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+        }
+
+        .card {
+            background: white;
+            border-radius: 15px;
+            padding: 20px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            transition: transform 0.2s, box-shadow 0.2s;
+            position: relative;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+        }
+
+        .card-image {
+            width: 100%;
+            height: 200px;
+            object-fit: contain;
+            border-radius: 10px;
+            background: #f8f9fa;
+            margin-bottom: 15px;
+        }
+
+        .card-name {
+            font-size: 20px;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 10px;
+        }
+
+        .card-number {
+            font-size: 16px;
+            color: #666;
+            font-family: 'Courier New', monospace;
+            margin-bottom: 15px;
+        }
+
+        .card-actions {
+            display: none;
+            gap: 10px;
+            margin-top: 15px;
+        }
+
+        .card-actions.visible {
+            display: flex;
+        }
+
+        .btn {
+            flex: 1;
+            padding: 8px 16px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 14px;
+            transition: opacity 0.2s;
+        }
+
+        .btn:hover {
+            opacity: 0.8;
+        }
+
+        .btn-edit {
+            background: #3b82f6;
+            color: white;
+        }
+
+        .btn-delete {
+            background: #ef4444;
+            color: white;
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.5);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal.visible {
+            display: flex;
+        }
+
+        .modal-content {
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            max-width: 500px;
+            width: 90%;
+            max-height: 90vh;
+            overflow-y: auto;
+        }
+
+        .modal-header {
+            font-size: 24px;
+            font-weight: 600;
+            margin-bottom: 20px;
+            color: #333;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+            color: #555;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #e5e7eb;
+            border-radius: 8px;
+            font-size: 16px;
+            transition: border-color 0.2s;
+        }
+
+        .form-group input[type="file"] {
+            padding: 8px;
+            cursor: pointer;
+        }
+
+        .form-group input:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+
+        .image-preview {
+            width: 100%;
+            max-height: 200px;
+            object-fit: contain;
+            border-radius: 8px;
+            margin-top: 10px;
+            background: #f8f9fa;
+            display: none;
+        }
+
+        .image-preview.visible {
+            display: block;
+        }
+
+        .modal-actions {
+            display: flex;
+            gap: 10px;
+            margin-top: 25px;
+        }
+
+        .btn-primary {
+            flex: 1;
+            padding: 12px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: transform 0.2s;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+        }
+
+        .btn-secondary {
+            flex: 1;
+            padding: 12px;
+            background: #6b7280;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: transform 0.2s;
+        }
+
+        .btn-secondary:hover {
+            transform: translateY(-2px);
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 60px 20px;
+            color: white;
+        }
+
+        .empty-state h2 {
+            font-size: 32px;
+            margin-bottom: 10px;
+        }
+
+        .empty-state p {
+            font-size: 18px;
+            opacity: 0.9;
+        }
+
+        .loading {
+            text-align: center;
+            padding: 40px;
+            color: white;
+            font-size: 18px;
+        }
+
+        .btn-primary:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+
+        /* Modal schermo intero */
+        .fullscreen-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.95);
+            z-index: 2000;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .fullscreen-modal.visible {
+            display: flex;
+        }
+
+        .fullscreen-content {
+            max-width: 90%;
+            max-height: 90%;
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.5);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            position: relative;
+        }
+
+        .fullscreen-close {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background: #ef4444;
+            color: white;
+            border: none;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            font-size: 24px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: transform 0.2s;
+            z-index: 10;
+        }
+
+        .fullscreen-close:hover {
+            transform: scale(1.1);
+        }
+
+        .fullscreen-image {
+            max-width: 100%;
+            max-height: 60vh;
+            object-fit: contain;
+            border-radius: 10px;
+            margin-bottom: 20px;
+        }
+
+        .fullscreen-info {
+            text-align: center;
+        }
+
+        .fullscreen-name {
+            font-size: 32px;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 15px;
+        }
+
+        .fullscreen-number {
+            font-size: 28px;
+            color: #666;
+            font-family: 'Courier New', monospace;
+            letter-spacing: 2px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="header-left">
+                <div class="logo" id="logo" title="Clicca 5 volte per modalità modifica">
+                    🛒
+                </div>
+                <h1>Le Mie Card Supermercato</h1>
+            </div>
+            <div>
+                <span class="mode-indicator" id="modeIndicator">Modalità Lettura</span>
+            </div>
+        </header>
+
+        <button class="add-card-btn" id="addCardBtn">+ Aggiungi Card</button>
+
+        <div id="loadingState" class="loading">
+            Caricamento card...
+        </div>
+
+        <div id="emptyState" class="empty-state" style="display: none;">
+            <h2>📇</h2>
+            <h2>Nessuna card salvata</h2>
+            <p>Attiva la modalità modifica per aggiungere le tue card</p>
+        </div>
+
+        <div class="cards-grid" id="cardsGrid"></div>
+    </div>
+
+    <!-- Modal per aggiungere/modificare card -->
+    <div class="modal" id="cardModal">
+        <div class="modal-content">
+            <div class="modal-header" id="modalTitle">Aggiungi Card</div>
+            <form id="cardForm">
+                <div class="form-group">
+                    <label>Nome Supermercato</label>
+                    <input type="text" id="cardName" placeholder="Es: Conad, Esselunga, Coop..." required>
+                </div>
+                <div class="form-group">
+                    <label>Numero Card</label>
+                    <input type="text" id="cardNumber" placeholder="Es: 1234 5678 9012 3456" required>
+                </div>
+                <div class="form-group">
+                    <label>Immagine Card</label>
+                    <input type="file" id="cardImage" accept="image/*" required>
+                    <img class="image-preview" id="imagePreview" alt="Anteprima">
+                </div>
+                <div class="modal-actions">
+                    <button type="submit" class="btn-primary">Salva</button>
+                    <button type="button" class="btn-secondary" id="cancelBtn">Annulla</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Modal schermo intero -->
+    <div class="fullscreen-modal" id="fullscreenModal">
+        <div class="fullscreen-content">
+            <button class="fullscreen-close" id="fullscreenClose">×</button>
+            <img class="fullscreen-image" id="fullscreenImage" alt="Card">
+            <div class="fullscreen-info">
+                <div class="fullscreen-name" id="fullscreenName"></div>
+                <div class="fullscreen-number" id="fullscreenNumber"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Firebase SDK -->
+    <script type="module">
+        import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js';
+        import { getDatabase, ref, set, get, remove, push } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js';
+
+        // Configurazione Firebase
+        const firebaseConfig = {
+            apiKey: "AIzaSyDgbOSab7lRL1pKLFkT6MOlTFmtf-xf61Y",
+            authDomain: "meteore-31062.firebaseapp.com",
+            databaseURL: "https://meteore-31062-default-rtdb.europe-west1.firebasedatabase.app",
+            projectId: "meteore-31062",
+            storageBucket: "meteore-31062.firebasestorage.app",
+            messagingSenderId: "723550096158",
+            appId: "1:723550096158:web:49005ffade790fe979d70f"
+        };
+
+        // Inizializza Firebase
+        const app = initializeApp(firebaseConfig);
+        const database = getDatabase(app);
+        const cardsRef = ref(database, 'supermarket-cards');
+
+        // Variabili globali
+        let editMode = false;
+        let clickCount = 0;
+        let clickTimer = null;
+        let currentEditingCardId = null;
+        let cards = {};
+        let selectedImageBase64 = null;
+
+        // Elementi DOM
+        const logo = document.getElementById('logo');
+        const modeIndicator = document.getElementById('modeIndicator');
+        const addCardBtn = document.getElementById('addCardBtn');
+        const cardsGrid = document.getElementById('cardsGrid');
+        const cardModal = document.getElementById('cardModal');
+        const cardForm = document.getElementById('cardForm');
+        const modalTitle = document.getElementById('modalTitle');
+        const cancelBtn = document.getElementById('cancelBtn');
+        const imagePreview = document.getElementById('imagePreview');
+        const cardImageInput = document.getElementById('cardImage');
+        const loadingState = document.getElementById('loadingState');
+        const emptyState = document.getElementById('emptyState');
+        const fullscreenModal = document.getElementById('fullscreenModal');
+        const fullscreenClose = document.getElementById('fullscreenClose');
+        const fullscreenImage = document.getElementById('fullscreenImage');
+        const fullscreenName = document.getElementById('fullscreenName');
+        const fullscreenNumber = document.getElementById('fullscreenNumber');
+
+        // Gestione click sul logo (5 volte per modalità modifica)
+        logo.addEventListener('click', () => {
+            clickCount++;
+            
+            if (clickTimer) clearTimeout(clickTimer);
+            
+            if (clickCount === 5) {
+                editMode = !editMode;
+                updateMode();
+                clickCount = 0;
+            }
+            
+            clickTimer = setTimeout(() => {
+                clickCount = 0;
+            }, 1000);
+        });
+
+        // Aggiorna modalità interfaccia
+        function updateMode() {
+            if (editMode) {
+                modeIndicator.textContent = 'Modalità Modifica';
+                modeIndicator.classList.add('edit-mode');
+                addCardBtn.classList.add('visible');
+                document.querySelectorAll('.card-actions').forEach(el => el.classList.add('visible'));
+            } else {
+                modeIndicator.textContent = 'Modalità Lettura';
+                modeIndicator.classList.remove('edit-mode');
+                addCardBtn.classList.remove('visible');
+                document.querySelectorAll('.card-actions').forEach(el => el.classList.remove('visible'));
+            }
+        }
+
+        // Apri modal per nuova card
+        addCardBtn.addEventListener('click', () => {
+            currentEditingCardId = null;
+            selectedImageBase64 = null;
+            modalTitle.textContent = 'Aggiungi Card';
+            cardForm.reset();
+            document.getElementById('cardImage').required = true;
+            imagePreview.classList.remove('visible');
+            cardModal.classList.add('visible');
+        });
+
+        // Chiudi modal
+        cancelBtn.addEventListener('click', () => {
+            cardModal.classList.remove('visible');
+        });
+
+        // Chiudi modal fullscreen
+        fullscreenClose.addEventListener('click', () => {
+            fullscreenModal.classList.remove('visible');
+        });
+
+        // Chiudi cliccando fuori dall'immagine
+        fullscreenModal.addEventListener('click', (e) => {
+            if (e.target === fullscreenModal) {
+                fullscreenModal.classList.remove('visible');
+            }
+        });
+
+        // Anteprima immagine
+        cardImageInput.addEventListener('change', (e) => {
+            const file = e.target.files[0];
+            if (file && file.type.startsWith('image/')) {
+                const reader = new FileReader();
+                reader.onload = (e) => {
+                    selectedImageBase64 = e.target.result;
+                    imagePreview.src = selectedImageBase64;
+                    imagePreview.classList.add('visible');
+                };
+                reader.onerror = () => {
+                    alert('Errore nella lettura del file');
+                    selectedImageBase64 = null;
+                    imagePreview.classList.remove('visible');
+                };
+                reader.readAsDataURL(file);
+            } else {
+                selectedImageBase64 = null;
+                imagePreview.classList.remove('visible');
+            }
+        });
+
+        // Salva card
+        cardForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            const submitBtn = cardForm.querySelector('.btn-primary');
+            submitBtn.disabled = true;
+            
+            try {
+                // Usa l'immagine selezionata o quella esistente
+                const imageData = selectedImageBase64 || (currentEditingCardId && cards[currentEditingCardId] ? cards[currentEditingCardId].image : null);
+                
+                // Verifica che abbiamo un'immagine
+                if (!imageData) {
+                    throw new Error('Devi selezionare un\'immagine');
+                }
+                
+                const cardData = {
+                    name: document.getElementById('cardName').value,
+                    number: document.getElementById('cardNumber').value,
+                    image: imageData,
+                    timestamp: Date.now()
+                };
+
+                if (currentEditingCardId) {
+                    // Modifica card esistente
+                    await set(ref(database, `supermarket-cards/${currentEditingCardId}`), cardData);
+                } else {
+                    // Nuova card
+                    await push(cardsRef, cardData);
+                }
+                
+                cardModal.classList.remove('visible');
+                selectedImageBase64 = null;
+                submitBtn.disabled = false;
+                loadCards();
+                
+            } catch (error) {
+                console.error('Errore completo:', error);
+                submitBtn.disabled = false;
+                alert('Errore: ' + error.message);
+            }
+        });
+
+        // Carica tutte le card
+        async function loadCards() {
+            try {
+                loadingState.style.display = 'block';
+                emptyState.style.display = 'none';
+                cardsGrid.innerHTML = '';
+
+                const snapshot = await get(cardsRef);
+                
+                if (snapshot.exists()) {
+                    cards = snapshot.val();
+                    renderCards();
+                } else {
+                    cards = {};
+                    loadingState.style.display = 'none';
+                    emptyState.style.display = 'block';
+                }
+            } catch (error) {
+                console.error('Errore nel caricamento:', error);
+                loadingState.style.display = 'none';
+                emptyState.style.display = 'block';
+            }
+        }
+
+        // Renderizza le card
+        function renderCards() {
+            cardsGrid.innerHTML = '';
+            loadingState.style.display = 'none';
+            emptyState.style.display = 'none';
+
+            Object.entries(cards).forEach(([id, card]) => {
+                const cardElement = document.createElement('div');
+                cardElement.className = 'card';
+                cardElement.innerHTML = `
+                    <img src="${card.image}" alt="${card.name}" class="card-image" style="cursor: pointer;" onclick="window.showFullscreen('${id}')" onerror="this.src='data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%22200%22 height=%22200%22%3E%3Crect fill=%22%23f0f0f0%22 width=%22200%22 height=%22200%22/%3E%3Ctext x=%2250%25%22 y=%2250%25%22 dominant-baseline=%22middle%22 text-anchor=%22middle%22 font-family=%22sans-serif%22 font-size=%2220%22 fill=%22%23999%22%3EImmagine non disponibile%3C/text%3E%3C/svg%3E'">
+                    <div class="card-name">${card.name}</div>
+                    <div class="card-number">${card.number}</div>
+                    <div class="card-actions ${editMode ? 'visible' : ''}">
+                        <button class="btn btn-edit" onclick="window.editCard('${id}')">Modifica</button>
+                        <button class="btn btn-delete" onclick="window.deleteCard('${id}')">Elimina</button>
+                    </div>
+                `;
+                cardsGrid.appendChild(cardElement);
+            });
+        }
+
+        // Modifica card
+        window.editCard = (id) => {
+            currentEditingCardId = id;
+            const card = cards[id];
+            
+            modalTitle.textContent = 'Modifica Card';
+            document.getElementById('cardName').value = card.name;
+            document.getElementById('cardNumber').value = card.number;
+            
+            // Mostra l'immagine attuale
+            imagePreview.src = card.image;
+            imagePreview.classList.add('visible');
+            
+            // Resetta il file input
+            document.getElementById('cardImage').value = '';
+            document.getElementById('cardImage').required = false;
+            selectedImageBase64 = null;
+            
+            cardModal.classList.add('visible');
+        };
+
+        // Mostra card a schermo intero
+        window.showFullscreen = (id) => {
+            const card = cards[id];
+            if (card) {
+                fullscreenImage.src = card.image;
+                fullscreenName.textContent = card.name;
+                fullscreenNumber.textContent = card.number;
+                fullscreenModal.classList.add('visible');
+            }
+        };
+
+        // Elimina card
+        window.deleteCard = async (id) => {
+            if (confirm('Sei sicuro di voler eliminare questa card?')) {
+                try {
+                    await remove(ref(database, `supermarket-cards/${id}`));
+                    loadCards();
+                } catch (error) {
+                    console.error('Errore nell\'eliminazione:', error);
+                    alert('Errore nell\'eliminazione della card');
+                }
+            }
+        };
+
+        // Carica le card all'avvio
+        loadCards();
+    </script>
+</body>
+</html>
