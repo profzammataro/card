@@ -95,6 +95,27 @@
             display: block;
         }
 
+        .search-container {
+            max-width: 600px;
+            margin: 0 auto 30px;
+        }
+
+        .search-box {
+            width: 100%;
+            padding: 15px 20px;
+            font-size: 18px;
+            border: none;
+            border-radius: 12px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .search-box:focus {
+            outline: none;
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+        }
+
         .cards-grid {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
@@ -126,17 +147,10 @@
         }
 
         .card-name {
-            font-size: 20px;
-            font-weight: 600;
+            font-size: 24px;
+            font-weight: 700;
             color: #333;
-            margin-bottom: 10px;
-        }
-
-        .card-number {
-            font-size: 16px;
-            color: #666;
-            font-family: 'Courier New', monospace;
-            margin-bottom: 15px;
+            text-align: center;
         }
 
         .card-actions {
@@ -385,17 +399,9 @@
         }
 
         .fullscreen-name {
-            font-size: 32px;
-            font-weight: 600;
+            font-size: 48px;
+            font-weight: 700;
             color: #333;
-            margin-bottom: 15px;
-        }
-
-        .fullscreen-number {
-            font-size: 28px;
-            color: #666;
-            font-family: 'Courier New', monospace;
-            letter-spacing: 2px;
         }
     </style>
 </head>
@@ -414,6 +420,10 @@
         </header>
 
         <button class="add-card-btn" id="addCardBtn">+ Aggiungi Card</button>
+
+        <div class="search-container">
+            <input type="text" class="search-box" id="searchBox" placeholder="🔍 Cerca supermercato...">
+        </div>
 
         <div id="loadingState" class="loading">
             Caricamento card...
@@ -438,10 +448,6 @@
                     <input type="text" id="cardName" placeholder="Es: Conad, Esselunga, Coop..." required>
                 </div>
                 <div class="form-group">
-                    <label>Numero Card</label>
-                    <input type="text" id="cardNumber" placeholder="Es: 1234 5678 9012 3456" required>
-                </div>
-                <div class="form-group">
                     <label>Immagine Card</label>
                     <input type="file" id="cardImage" accept="image/*" required>
                     <img class="image-preview" id="imagePreview" alt="Anteprima">
@@ -461,7 +467,6 @@
             <img class="fullscreen-image" id="fullscreenImage" alt="Card">
             <div class="fullscreen-info">
                 <div class="fullscreen-name" id="fullscreenName"></div>
-                <div class="fullscreen-number" id="fullscreenNumber"></div>
             </div>
         </div>
     </div>
@@ -512,7 +517,7 @@
         const fullscreenClose = document.getElementById('fullscreenClose');
         const fullscreenImage = document.getElementById('fullscreenImage');
         const fullscreenName = document.getElementById('fullscreenName');
-        const fullscreenNumber = document.getElementById('fullscreenNumber');
+        const searchBox = document.getElementById('searchBox');
 
         // Gestione click sul logo (5 volte per modalità modifica)
         logo.addEventListener('click', () => {
@@ -574,6 +579,12 @@
             }
         });
 
+        // Ricerca card
+        searchBox.addEventListener('input', (e) => {
+            const searchTerm = e.target.value.toLowerCase();
+            renderCards(searchTerm);
+        });
+
         // Anteprima immagine
         cardImageInput.addEventListener('change', (e) => {
             const file = e.target.files[0];
@@ -614,7 +625,6 @@
                 
                 const cardData = {
                     name: document.getElementById('cardName').value,
-                    number: document.getElementById('cardNumber').value,
                     image: imageData,
                     timestamp: Date.now()
                 };
@@ -664,18 +674,34 @@
         }
 
         // Renderizza le card
-        function renderCards() {
+        function renderCards(searchTerm = '') {
             cardsGrid.innerHTML = '';
             loadingState.style.display = 'none';
             emptyState.style.display = 'none';
 
-            Object.entries(cards).forEach(([id, card]) => {
+            const filteredCards = Object.entries(cards).filter(([id, card]) => {
+                if (!searchTerm) return true;
+                return card.name.toLowerCase().includes(searchTerm);
+            });
+
+            if (filteredCards.length === 0) {
+                emptyState.style.display = 'block';
+                if (searchTerm) {
+                    emptyState.querySelector('h2:last-child').textContent = 'Nessuna card trovata';
+                    emptyState.querySelector('p').textContent = 'Prova con un altro termine di ricerca';
+                } else {
+                    emptyState.querySelector('h2:last-child').textContent = 'Nessuna card salvata';
+                    emptyState.querySelector('p').textContent = 'Attiva la modalità modifica per aggiungere le tue card';
+                }
+                return;
+            }
+
+            filteredCards.forEach(([id, card]) => {
                 const cardElement = document.createElement('div');
                 cardElement.className = 'card';
                 cardElement.innerHTML = `
                     <img src="${card.image}" alt="${card.name}" class="card-image" style="cursor: pointer;" onclick="window.showFullscreen('${id}')" onerror="this.src='data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%22200%22 height=%22200%22%3E%3Crect fill=%22%23f0f0f0%22 width=%22200%22 height=%22200%22/%3E%3Ctext x=%2250%25%22 y=%2250%25%22 dominant-baseline=%22middle%22 text-anchor=%22middle%22 font-family=%22sans-serif%22 font-size=%2220%22 fill=%22%23999%22%3EImmagine non disponibile%3C/text%3E%3C/svg%3E'">
                     <div class="card-name">${card.name}</div>
-                    <div class="card-number">${card.number}</div>
                     <div class="card-actions ${editMode ? 'visible' : ''}">
                         <button class="btn btn-edit" onclick="window.editCard('${id}')">Modifica</button>
                         <button class="btn btn-delete" onclick="window.deleteCard('${id}')">Elimina</button>
@@ -692,7 +718,6 @@
             
             modalTitle.textContent = 'Modifica Card';
             document.getElementById('cardName').value = card.name;
-            document.getElementById('cardNumber').value = card.number;
             
             // Mostra l'immagine attuale
             imagePreview.src = card.image;
@@ -712,7 +737,6 @@
             if (card) {
                 fullscreenImage.src = card.image;
                 fullscreenName.textContent = card.name;
-                fullscreenNumber.textContent = card.number;
                 fullscreenModal.classList.add('visible');
             }
         };
