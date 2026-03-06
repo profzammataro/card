@@ -18,6 +18,78 @@
             padding: 20px;
         }
 
+        /* ─── LOGIN SCREEN ─── */
+        .login-screen {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .login-card {
+            background: white;
+            border-radius: 24px;
+            padding: 50px 40px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.25);
+            text-align: center;
+            max-width: 420px;
+            width: 100%;
+        }
+
+        .login-logo {
+            font-size: 64px;
+            margin-bottom: 20px;
+            display: block;
+        }
+
+        .login-title {
+            font-size: 28px;
+            font-weight: 700;
+            color: #333;
+            margin-bottom: 8px;
+        }
+
+        .login-subtitle {
+            font-size: 16px;
+            color: #888;
+            margin-bottom: 40px;
+        }
+
+        .google-btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            width: 100%;
+            padding: 14px 24px;
+            background: white;
+            border: 2px solid #e5e7eb;
+            border-radius: 12px;
+            font-size: 16px;
+            font-weight: 600;
+            color: #333;
+            cursor: pointer;
+            transition: all 0.2s;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+        }
+
+        .google-btn:hover {
+            border-color: #667eea;
+            box-shadow: 0 4px 16px rgba(102,126,234,0.25);
+            transform: translateY(-2px);
+        }
+
+        .google-icon {
+            width: 22px;
+            height: 22px;
+        }
+
+        /* ─── MAIN APP ─── */
+        .app-screen {
+            display: none;
+        }
+
         .container {
             max-width: 1200px;
             margin: 0 auto;
@@ -25,13 +97,15 @@
 
         header {
             background: white;
-            padding: 20px;
+            padding: 16px 20px;
             border-radius: 15px;
             box-shadow: 0 10px 30px rgba(0,0,0,0.2);
             margin-bottom: 30px;
             display: flex;
             align-items: center;
             justify-content: space-between;
+            gap: 12px;
+            flex-wrap: wrap;
         }
 
         .header-left {
@@ -51,15 +125,76 @@
             font-size: 28px;
             cursor: pointer;
             transition: transform 0.2s;
+            flex-shrink: 0;
         }
 
-        .logo:hover {
-            transform: scale(1.05);
-        }
+        .logo:hover { transform: scale(1.05); }
 
         h1 {
             color: #333;
-            font-size: 28px;
+            font-size: 22px;
+        }
+
+        .header-right {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .user-info {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            background: #f8f9fa;
+            padding: 8px 14px;
+            border-radius: 20px;
+        }
+
+        .user-avatar {
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            object-fit: cover;
+        }
+
+        .user-avatar-placeholder {
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 13px;
+            font-weight: 700;
+        }
+
+        .user-name {
+            font-size: 14px;
+            color: #555;
+            font-weight: 500;
+            max-width: 130px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+
+        .logout-btn {
+            background: #f3f4f6;
+            border: none;
+            padding: 8px 14px;
+            border-radius: 20px;
+            font-size: 13px;
+            color: #666;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .logout-btn:hover {
+            background: #fee2e2;
+            color: #ef4444;
         }
 
         .mode-indicator {
@@ -87,13 +222,8 @@
             transition: transform 0.2s;
         }
 
-        .add-card-btn:hover {
-            transform: translateY(-2px);
-        }
-
-        .add-card-btn.visible {
-            display: block;
-        }
+        .add-card-btn:hover { transform: translateY(-2px); }
+        .add-card-btn.visible { display: block; }
 
         .search-container {
             max-width: 600px;
@@ -159,9 +289,7 @@
             margin-top: 15px;
         }
 
-        .card-actions.visible {
-            display: flex;
-        }
+        .card-actions.visible { display: flex; }
 
         .btn {
             flex: 1;
@@ -173,36 +301,23 @@
             transition: opacity 0.2s;
         }
 
-        .btn:hover {
-            opacity: 0.8;
-        }
+        .btn:hover { opacity: 0.8; }
+        .btn-edit { background: #3b82f6; color: white; }
+        .btn-delete { background: #ef4444; color: white; }
 
-        .btn-edit {
-            background: #3b82f6;
-            color: white;
-        }
-
-        .btn-delete {
-            background: #ef4444;
-            color: white;
-        }
-
+        /* ─── MODALS ─── */
         .modal {
             display: none;
             position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
             background: rgba(0,0,0,0.5);
             z-index: 1000;
             align-items: center;
             justify-content: center;
         }
 
-        .modal.visible {
-            display: flex;
-        }
+        .modal.visible { display: flex; }
 
         .modal-content {
             background: white;
@@ -221,9 +336,7 @@
             color: #333;
         }
 
-        .form-group {
-            margin-bottom: 20px;
-        }
+        .form-group { margin-bottom: 20px; }
 
         .form-group label {
             display: block;
@@ -241,15 +354,8 @@
             transition: border-color 0.2s;
         }
 
-        .form-group input[type="file"] {
-            padding: 8px;
-            cursor: pointer;
-        }
-
-        .form-group input:focus {
-            outline: none;
-            border-color: #667eea;
-        }
+        .form-group input[type="file"] { padding: 8px; cursor: pointer; }
+        .form-group input:focus { outline: none; border-color: #667eea; }
 
         .image-preview {
             width: 100%;
@@ -261,9 +367,7 @@
             display: none;
         }
 
-        .image-preview.visible {
-            display: block;
-        }
+        .image-preview.visible { display: block; }
 
         .modal-actions {
             display: flex;
@@ -283,9 +387,8 @@
             transition: transform 0.2s;
         }
 
-        .btn-primary:hover {
-            transform: translateY(-2px);
-        }
+        .btn-primary:hover { transform: translateY(-2px); }
+        .btn-primary:disabled { opacity: 0.6; cursor: not-allowed; }
 
         .btn-secondary {
             flex: 1;
@@ -299,9 +402,7 @@
             transition: transform 0.2s;
         }
 
-        .btn-secondary:hover {
-            transform: translateY(-2px);
-        }
+        .btn-secondary:hover { transform: translateY(-2px); }
 
         .empty-state {
             text-align: center;
@@ -309,15 +410,8 @@
             color: white;
         }
 
-        .empty-state h2 {
-            font-size: 32px;
-            margin-bottom: 10px;
-        }
-
-        .empty-state p {
-            font-size: 18px;
-            opacity: 0.9;
-        }
+        .empty-state h2 { font-size: 32px; margin-bottom: 10px; }
+        .empty-state p { font-size: 18px; opacity: 0.9; }
 
         .loading {
             text-align: center;
@@ -326,19 +420,12 @@
             font-size: 18px;
         }
 
-        .btn-primary:disabled {
-            opacity: 0.6;
-            cursor: not-allowed;
-        }
-
-        /* Modal schermo intero */
+        /* ─── FULLSCREEN MODAL ─── */
         .fullscreen-modal {
             display: none;
             position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
             background: rgba(0, 0, 0, 0.95);
             z-index: 2000;
             align-items: center;
@@ -346,9 +433,7 @@
             padding: 20px;
         }
 
-        .fullscreen-modal.visible {
-            display: flex;
-        }
+        .fullscreen-modal.visible { display: flex; }
 
         .fullscreen-content {
             max-width: 90%;
@@ -365,13 +450,11 @@
 
         .fullscreen-close {
             position: absolute;
-            top: 15px;
-            right: 15px;
+            top: 15px; right: 15px;
             background: #ef4444;
             color: white;
             border: none;
-            width: 40px;
-            height: 40px;
+            width: 40px; height: 40px;
             border-radius: 50%;
             font-size: 24px;
             cursor: pointer;
@@ -382,9 +465,7 @@
             z-index: 10;
         }
 
-        .fullscreen-close:hover {
-            transform: scale(1.1);
-        }
+        .fullscreen-close:hover { transform: scale(1.1); }
 
         .fullscreen-image {
             max-width: 100%;
@@ -394,51 +475,133 @@
             margin-bottom: 20px;
         }
 
-        .fullscreen-info {
-            text-align: center;
-        }
-
         .fullscreen-name {
             font-size: 48px;
             font-weight: 700;
             color: #333;
+            text-align: center;
         }
+
+        /* ─── MIGRATION BANNER ─── */
+        .migration-banner {
+            display: none;
+            background: white;
+            border-radius: 15px;
+            padding: 20px 24px;
+            margin-bottom: 24px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.15);
+            align-items: center;
+            justify-content: space-between;
+            gap: 16px;
+            flex-wrap: wrap;
+        }
+
+        .migration-banner.visible { display: flex; }
+
+        .migration-text { flex: 1; min-width: 200px; }
+        .migration-text strong { display: block; color: #333; font-size: 16px; margin-bottom: 4px; }
+        .migration-text span { color: #888; font-size: 14px; }
+
+        .migration-actions { display: flex; gap: 8px; flex-shrink: 0; }
+
+        .btn-migrate {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform 0.2s;
+        }
+
+        .btn-migrate:hover { transform: translateY(-1px); }
+        .btn-migrate:disabled { opacity: 0.6; cursor: not-allowed; }
+
+        .btn-dismiss {
+            background: #f3f4f6;
+            color: #666;
+            border: none;
+            padding: 10px 16px;
+            border-radius: 8px;
+            font-size: 14px;
+            cursor: pointer;
+        }
+
+        .btn-dismiss:hover { background: #e5e7eb; }
     </style>
 </head>
 <body>
-    <div class="container">
-        <header>
-            <div class="header-left">
-                <div class="logo" id="logo" title="Clicca 5 volte per modalità modifica">
-                    🛒
-                </div>
-                <h1>Le Mie Card Supermercato</h1>
-            </div>
-            <div>
-                <span class="mode-indicator" id="modeIndicator">Modalità Lettura</span>
-            </div>
-        </header>
 
-        <button class="add-card-btn" id="addCardBtn">+ Aggiungi Card</button>
-
-        <div class="search-container">
-            <input type="text" class="search-box" id="searchBox" placeholder="🔍 Cerca supermercato...">
+    <!-- ─── SCHERMATA LOGIN ─── -->
+    <div class="login-screen" id="loginScreen">
+        <div class="login-card">
+            <span class="login-logo">🛒</span>
+            <div class="login-title">Le Mie Card Supermercato</div>
+            <div class="login-subtitle">Accedi per gestire le tue card fedeltà in modo privato</div>
+            <button class="google-btn" id="googleLoginBtn">
+                <svg class="google-icon" viewBox="0 0 48 48">
+                    <path fill="#EA4335" d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z"/>
+                    <path fill="#4285F4" d="M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.78 7.18l7.73 6c4.51-4.18 7.09-10.36 7.09-17.65z"/>
+                    <path fill="#FBBC05" d="M10.53 28.59c-.48-1.45-.76-2.99-.76-4.59s.27-3.14.76-4.59l-7.98-6.19C.92 16.46 0 20.12 0 24c0 3.88.92 7.54 2.56 10.78l7.97-6.19z"/>
+                    <path fill="#34A853" d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.18 1.48-4.97 2.35-8.16 2.35-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z"/>
+                    <path fill="none" d="M0 0h48v48H0z"/>
+                </svg>
+                Accedi con Google
+            </button>
         </div>
-
-        <div id="loadingState" class="loading">
-            Caricamento card...
-        </div>
-
-        <div id="emptyState" class="empty-state" style="display: none;">
-            <h2>📇</h2>
-            <h2>Nessuna card salvata</h2>
-            <p>Attiva la modalità modifica per aggiungere le tue card</p>
-        </div>
-
-        <div class="cards-grid" id="cardsGrid"></div>
     </div>
 
-    <!-- Modal per aggiungere/modificare card -->
+    <!-- ─── APP PRINCIPALE ─── -->
+    <div class="app-screen" id="appScreen">
+        <div class="container">
+            <header>
+                <div class="header-left">
+                    <div class="logo" id="logo" title="Clicca 5 volte per modalità modifica">🛒</div>
+                    <h1>Le Mie Card Supermercato</h1>
+                </div>
+                <div class="header-right">
+                    <div class="user-info" id="userInfo">
+                        <div class="user-avatar-placeholder" id="userAvatarPlaceholder"></div>
+                        <span class="user-name" id="userName"></span>
+                    </div>
+                    <span class="mode-indicator" id="modeIndicator">Modalità Lettura</span>
+                    <button class="logout-btn" id="logoutBtn">Esci</button>
+                </div>
+            </header>
+
+            <!-- Banner migrazione vecchie card -->
+            <div class="migration-banner" id="migrationBanner">
+                <div class="migration-text">
+                    <strong>📦 Hai card nel vecchio database!</strong>
+                    <span>Vuoi importarle nel tuo account personale?</span>
+                </div>
+                <div class="migration-actions">
+                    <button class="btn-migrate" id="migrateBtn">Importa card</button>
+                    <button class="btn-dismiss" id="dismissMigrationBtn">Ignora</button>
+                </div>
+            </div>
+
+            <button class="add-card-btn" id="addCardBtn">+ Aggiungi Card</button>
+
+            <div class="search-container">
+                <input type="text" class="search-box" id="searchBox" placeholder="🔍 Cerca supermercato...">
+            </div>
+
+            <div id="loadingState" class="loading">Caricamento card...</div>
+
+            <div id="emptyState" class="empty-state" style="display: none;">
+                <h2>📇</h2>
+                <h2>Nessuna card salvata</h2>
+                <p>Attiva la modalità modifica per aggiungere le tue card</p>
+            </div>
+
+            <div class="cards-grid" id="cardsGrid"></div>
+        </div>
+    </div>
+
+    <!-- Modal aggiunta/modifica -->
     <div class="modal" id="cardModal">
         <div class="modal-content">
             <div class="modal-header" id="modalTitle">Aggiungi Card</div>
@@ -465,18 +628,24 @@
         <div class="fullscreen-content">
             <button class="fullscreen-close" id="fullscreenClose">×</button>
             <img class="fullscreen-image" id="fullscreenImage" alt="Card">
-            <div class="fullscreen-info">
-                <div class="fullscreen-name" id="fullscreenName"></div>
-            </div>
+            <div class="fullscreen-name" id="fullscreenName"></div>
         </div>
     </div>
 
-    <!-- Firebase SDK -->
     <script type="module">
         import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js';
         import { getDatabase, ref, set, get, remove, push } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js';
+        import {
+            getAuth,
+            GoogleAuthProvider,
+            signInWithPopup,
+            signInWithRedirect,
+            getRedirectResult,
+            signOut,
+            onAuthStateChanged
+        } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js';
 
-        // Configurazione Firebase
+        // ─── CONFIGURAZIONE FIREBASE ───
         const firebaseConfig = {
             apiKey: "AIzaSyDgbOSab7lRL1pKLFkT6MOlTFmtf-xf61Y",
             authDomain: "meteore-31062.firebaseapp.com",
@@ -487,56 +656,128 @@
             appId: "1:723550096158:web:49005ffade790fe979d70f"
         };
 
-        // Inizializza Firebase
         const app = initializeApp(firebaseConfig);
         const database = getDatabase(app);
-        const cardsRef = ref(database, 'supermarket-cards');
+        const auth = getAuth(app);
+        const provider = new GoogleAuthProvider();
 
-        // Variabili globali
+        // ─── STATO ───
         let editMode = false;
         let clickCount = 0;
         let clickTimer = null;
         let currentEditingCardId = null;
         let cards = {};
         let selectedImageBase64 = null;
+        let currentUser = null;
+        let cardsRef = null;
 
-        // Elementi DOM
-        const logo = document.getElementById('logo');
-        const modeIndicator = document.getElementById('modeIndicator');
-        const addCardBtn = document.getElementById('addCardBtn');
-        const cardsGrid = document.getElementById('cardsGrid');
-        const cardModal = document.getElementById('cardModal');
-        const cardForm = document.getElementById('cardForm');
-        const modalTitle = document.getElementById('modalTitle');
-        const cancelBtn = document.getElementById('cancelBtn');
-        const imagePreview = document.getElementById('imagePreview');
-        const cardImageInput = document.getElementById('cardImage');
-        const loadingState = document.getElementById('loadingState');
-        const emptyState = document.getElementById('emptyState');
+        // ─── DOM ───
+        const loginScreen     = document.getElementById('loginScreen');
+        const appScreen       = document.getElementById('appScreen');
+        const googleLoginBtn  = document.getElementById('googleLoginBtn');
+        const logoutBtn       = document.getElementById('logoutBtn');
+        const userInfo        = document.getElementById('userInfo');
+        const userName        = document.getElementById('userName');
+        const userAvatarPlaceholder = document.getElementById('userAvatarPlaceholder');
+        const logo            = document.getElementById('logo');
+        const modeIndicator   = document.getElementById('modeIndicator');
+        const addCardBtn      = document.getElementById('addCardBtn');
+        const cardsGrid       = document.getElementById('cardsGrid');
+        const cardModal       = document.getElementById('cardModal');
+        const cardForm        = document.getElementById('cardForm');
+        const modalTitle      = document.getElementById('modalTitle');
+        const cancelBtn       = document.getElementById('cancelBtn');
+        const imagePreview    = document.getElementById('imagePreview');
+        const cardImageInput  = document.getElementById('cardImage');
+        const loadingState    = document.getElementById('loadingState');
+        const emptyState      = document.getElementById('emptyState');
         const fullscreenModal = document.getElementById('fullscreenModal');
         const fullscreenClose = document.getElementById('fullscreenClose');
         const fullscreenImage = document.getElementById('fullscreenImage');
-        const fullscreenName = document.getElementById('fullscreenName');
-        const searchBox = document.getElementById('searchBox');
+        const fullscreenName  = document.getElementById('fullscreenName');
+        const searchBox       = document.getElementById('searchBox');
 
-        // Gestione click sul logo (5 volte per modalità modifica)
+        // ─── GESTIONE REDIRECT (mobile) ───
+        getRedirectResult(auth).catch((error) => {
+            console.error('Errore redirect login:', error);
+        });
+
+        // ─── AUTENTICAZIONE ───
+        onAuthStateChanged(auth, (user) => {
+            if (user) {
+                currentUser = user;
+                // Ogni utente ha il suo percorso privato nel DB
+                cardsRef = ref(database, `users/${user.uid}/supermarket-cards`);
+
+                // Mostra avatar o iniziale
+                if (user.photoURL) {
+                    userAvatarPlaceholder.style.display = 'none';
+                    const img = document.createElement('img');
+                    img.src = user.photoURL;
+                    img.className = 'user-avatar';
+                    userInfo.insertBefore(img, userName);
+                } else {
+                    userAvatarPlaceholder.textContent = (user.displayName || user.email || 'U')[0].toUpperCase();
+                }
+                userName.textContent = user.displayName || user.email;
+
+                loginScreen.style.display = 'none';
+                appScreen.style.display = 'block';
+                loadCards();
+                checkMigration();
+            } else {
+                currentUser = null;
+                cardsRef = null;
+                loginScreen.style.display = 'flex';
+                appScreen.style.display = 'none';
+            }
+        });
+
+        // Login con Google
+        googleLoginBtn.addEventListener('click', async () => {
+            try {
+                googleLoginBtn.disabled = true;
+                googleLoginBtn.textContent = 'Accesso in corso...';
+                const isMobile = /Android|iPhone|iPad/i.test(navigator.userAgent);
+                if (isMobile) {
+                    await signInWithRedirect(auth, provider);
+                } else {
+                    await signInWithPopup(auth, provider);
+                }
+            } catch (error) {
+                console.error('Errore login:', error);
+                googleLoginBtn.disabled = false;
+                googleLoginBtn.innerHTML = `
+                    <svg class="google-icon" viewBox="0 0 48 48">
+                        <path fill="#EA4335" d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z"/>
+                        <path fill="#4285F4" d="M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.78 7.18l7.73 6c4.51-4.18 7.09-10.36 7.09-17.65z"/>
+                        <path fill="#FBBC05" d="M10.53 28.59c-.48-1.45-.76-2.99-.76-4.59s.27-3.14.76-4.59l-7.98-6.19C.92 16.46 0 20.12 0 24c0 3.88.92 7.54 2.56 10.78l7.97-6.19z"/>
+                        <path fill="#34A853" d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.18 1.48-4.97 2.35-8.16 2.35-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z"/>
+                    </svg>
+                    Accedi con Google
+                `;
+                alert('Errore durante il login. Riprova.');
+            }
+        });
+
+        // Logout
+        logoutBtn.addEventListener('click', async () => {
+            editMode = false;
+            await signOut(auth);
+        });
+
+        // ─── MODALITÀ MODIFICA (5 click sul logo) ───
         logo.addEventListener('click', () => {
             clickCount++;
-            
             if (clickTimer) clearTimeout(clickTimer);
-            
             if (clickCount === 5) {
                 editMode = !editMode;
                 updateMode();
                 clickCount = 0;
             }
-            
-            clickTimer = setTimeout(() => {
-                clickCount = 0;
-            }, 1000);
+            clickTimer = setTimeout(() => { clickCount = 0; }, 1000);
         });
 
-        // Aggiorna modalità interfaccia
         function updateMode() {
             if (editMode) {
                 modeIndicator.textContent = 'Modalità Modifica';
@@ -551,7 +792,7 @@
             }
         }
 
-        // Apri modal per nuova card
+        // ─── CARD CRUD ───
         addCardBtn.addEventListener('click', () => {
             currentEditingCardId = null;
             selectedImageBase64 = null;
@@ -562,30 +803,15 @@
             cardModal.classList.add('visible');
         });
 
-        // Chiudi modal
-        cancelBtn.addEventListener('click', () => {
-            cardModal.classList.remove('visible');
-        });
+        cancelBtn.addEventListener('click', () => cardModal.classList.remove('visible'));
 
-        // Chiudi modal fullscreen
-        fullscreenClose.addEventListener('click', () => {
-            fullscreenModal.classList.remove('visible');
-        });
-
-        // Chiudi cliccando fuori dall'immagine
+        fullscreenClose.addEventListener('click', () => fullscreenModal.classList.remove('visible'));
         fullscreenModal.addEventListener('click', (e) => {
-            if (e.target === fullscreenModal) {
-                fullscreenModal.classList.remove('visible');
-            }
+            if (e.target === fullscreenModal) fullscreenModal.classList.remove('visible');
         });
 
-        // Ricerca card
-        searchBox.addEventListener('input', (e) => {
-            const searchTerm = e.target.value.toLowerCase();
-            renderCards(searchTerm);
-        });
+        searchBox.addEventListener('input', (e) => renderCards(e.target.value.toLowerCase()));
 
-        // Anteprima immagine
         cardImageInput.addEventListener('change', (e) => {
             const file = e.target.files[0];
             if (file && file.type.startsWith('image/')) {
@@ -607,22 +833,15 @@
             }
         });
 
-        // Salva card
         cardForm.addEventListener('submit', async (e) => {
             e.preventDefault();
-            
             const submitBtn = cardForm.querySelector('.btn-primary');
             submitBtn.disabled = true;
-            
+
             try {
-                // Usa l'immagine selezionata o quella esistente
                 const imageData = selectedImageBase64 || (currentEditingCardId && cards[currentEditingCardId] ? cards[currentEditingCardId].image : null);
-                
-                // Verifica che abbiamo un'immagine
-                if (!imageData) {
-                    throw new Error('Devi selezionare un\'immagine');
-                }
-                
+                if (!imageData) throw new Error("Devi selezionare un'immagine");
+
                 const cardData = {
                     name: document.getElementById('cardName').value,
                     image: imageData,
@@ -630,26 +849,75 @@
                 };
 
                 if (currentEditingCardId) {
-                    // Modifica card esistente
-                    await set(ref(database, `supermarket-cards/${currentEditingCardId}`), cardData);
+                    await set(ref(database, `users/${currentUser.uid}/supermarket-cards/${currentEditingCardId}`), cardData);
                 } else {
-                    // Nuova card
                     await push(cardsRef, cardData);
                 }
-                
+
                 cardModal.classList.remove('visible');
                 selectedImageBase64 = null;
                 submitBtn.disabled = false;
                 loadCards();
-                
             } catch (error) {
-                console.error('Errore completo:', error);
+                console.error('Errore:', error);
                 submitBtn.disabled = false;
                 alert('Errore: ' + error.message);
             }
         });
 
-        // Carica tutte le card
+        // ─── MIGRAZIONE VECCHIE CARD ───
+        const migrationBanner = document.getElementById('migrationBanner');
+        const migrateBtn = document.getElementById('migrateBtn');
+        const dismissMigrationBtn = document.getElementById('dismissMigrationBtn');
+        const oldCardsRef = ref(database, 'supermarket-cards');
+        const MIGRATION_KEY = 'migration_done_v1';
+
+        async function checkMigration() {
+            // Se già migrato o ignorato, non mostrare il banner
+            if (localStorage.getItem(MIGRATION_KEY)) return;
+            try {
+                const snapshot = await get(oldCardsRef);
+                if (snapshot.exists()) {
+                    migrationBanner.classList.add('visible');
+                }
+            } catch (e) {
+                console.log('Nessuna vecchia card trovata');
+            }
+        }
+
+        migrateBtn.addEventListener('click', async () => {
+            migrateBtn.disabled = true;
+            migrateBtn.textContent = 'Importazione...';
+            try {
+                const snapshot = await get(oldCardsRef);
+                if (snapshot.exists()) {
+                    const oldCards = snapshot.val();
+                    const entries = Object.values(oldCards);
+                    for (const card of entries) {
+                        await push(cardsRef, {
+                            name: card.name,
+                            image: card.image,
+                            timestamp: card.timestamp || Date.now()
+                        });
+                    }
+                    localStorage.setItem(MIGRATION_KEY, '1');
+                    migrationBanner.classList.remove('visible');
+                    alert('✅ ' + entries.length + ' card importate con successo!');
+                    loadCards();
+                }
+            } catch (error) {
+                console.error('Errore migrazione:', error);
+                alert('Errore durante l importazione: ' + error.message);
+                migrateBtn.disabled = false;
+                migrateBtn.textContent = 'Importa card';
+            }
+        });
+
+        dismissMigrationBtn.addEventListener('click', () => {
+            localStorage.setItem(MIGRATION_KEY, '1');
+            migrationBanner.classList.remove('visible');
+        });
+
         async function loadCards() {
             try {
                 loadingState.style.display = 'block';
@@ -657,7 +925,6 @@
                 cardsGrid.innerHTML = '';
 
                 const snapshot = await get(cardsRef);
-                
                 if (snapshot.exists()) {
                     cards = snapshot.val();
                     renderCards();
@@ -667,32 +934,25 @@
                     emptyState.style.display = 'block';
                 }
             } catch (error) {
-                console.error('Errore nel caricamento:', error);
+                console.error('Errore caricamento:', error);
                 loadingState.style.display = 'none';
                 emptyState.style.display = 'block';
             }
         }
 
-        // Renderizza le card
         function renderCards(searchTerm = '') {
             cardsGrid.innerHTML = '';
             loadingState.style.display = 'none';
             emptyState.style.display = 'none';
 
-            const filteredCards = Object.entries(cards).filter(([id, card]) => {
-                if (!searchTerm) return true;
-                return card.name.toLowerCase().includes(searchTerm);
-            });
+            const filteredCards = Object.entries(cards).filter(([id, card]) =>
+                !searchTerm || card.name.toLowerCase().includes(searchTerm)
+            );
 
             if (filteredCards.length === 0) {
                 emptyState.style.display = 'block';
-                if (searchTerm) {
-                    emptyState.querySelector('h2:last-child').textContent = 'Nessuna card trovata';
-                    emptyState.querySelector('p').textContent = 'Prova con un altro termine di ricerca';
-                } else {
-                    emptyState.querySelector('h2:last-child').textContent = 'Nessuna card salvata';
-                    emptyState.querySelector('p').textContent = 'Attiva la modalità modifica per aggiungere le tue card';
-                }
+                emptyState.querySelector('h2:last-child').textContent = searchTerm ? 'Nessuna card trovata' : 'Nessuna card salvata';
+                emptyState.querySelector('p').textContent = searchTerm ? 'Prova con un altro termine' : 'Attiva la modalità modifica per aggiungere le tue card';
                 return;
             }
 
@@ -700,7 +960,9 @@
                 const cardElement = document.createElement('div');
                 cardElement.className = 'card';
                 cardElement.innerHTML = `
-                    <img src="${card.image}" alt="${card.name}" class="card-image" style="cursor: pointer;" onclick="window.showFullscreen('${id}')" onerror="this.src='data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%22200%22 height=%22200%22%3E%3Crect fill=%22%23f0f0f0%22 width=%22200%22 height=%22200%22/%3E%3Ctext x=%2250%25%22 y=%2250%25%22 dominant-baseline=%22middle%22 text-anchor=%22middle%22 font-family=%22sans-serif%22 font-size=%2220%22 fill=%22%23999%22%3EImmagine non disponibile%3C/text%3E%3C/svg%3E'">
+                    <img src="${card.image}" alt="${card.name}" class="card-image" style="cursor:pointer"
+                         onclick="window.showFullscreen('${id}')"
+                         onerror="this.src='data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%22200%22 height=%22200%22%3E%3Crect fill=%22%23f0f0f0%22 width=%22200%22 height=%22200%22/%3E%3Ctext x=%2250%25%22 y=%2250%25%22 dominant-baseline=%22middle%22 text-anchor=%22middle%22 font-family=%22sans-serif%22 font-size=%2220%22 fill=%22%23999%22%3EImmagine non disponibile%3C/text%3E%3C/svg%3E'">
                     <div class="card-name">${card.name}</div>
                     <div class="card-actions ${editMode ? 'visible' : ''}">
                         <button class="btn btn-edit" onclick="window.editCard('${id}')">Modifica</button>
@@ -711,27 +973,19 @@
             });
         }
 
-        // Modifica card
         window.editCard = (id) => {
             currentEditingCardId = id;
             const card = cards[id];
-            
             modalTitle.textContent = 'Modifica Card';
             document.getElementById('cardName').value = card.name;
-            
-            // Mostra l'immagine attuale
             imagePreview.src = card.image;
             imagePreview.classList.add('visible');
-            
-            // Resetta il file input
             document.getElementById('cardImage').value = '';
             document.getElementById('cardImage').required = false;
             selectedImageBase64 = null;
-            
             cardModal.classList.add('visible');
         };
 
-        // Mostra card a schermo intero
         window.showFullscreen = (id) => {
             const card = cards[id];
             if (card) {
@@ -741,21 +995,17 @@
             }
         };
 
-        // Elimina card
         window.deleteCard = async (id) => {
             if (confirm('Sei sicuro di voler eliminare questa card?')) {
                 try {
-                    await remove(ref(database, `supermarket-cards/${id}`));
+                    await remove(ref(database, `users/${currentUser.uid}/supermarket-cards/${id}`));
                     loadCards();
                 } catch (error) {
-                    console.error('Errore nell\'eliminazione:', error);
-                    alert('Errore nell\'eliminazione della card');
+                    console.error('Errore eliminazione:', error);
+                    alert("Errore nell'eliminazione della card");
                 }
             }
         };
-
-        // Carica le card all'avvio
-        loadCards();
     </script>
 </body>
 </html>
