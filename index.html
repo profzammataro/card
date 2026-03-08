@@ -5,20 +5,16 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Le Mie Card Supermercato</title>
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
 
         body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             min-height: 100vh;
             padding: 20px;
         }
 
-        /* ─── LOGIN SCREEN ─── */
+        /* ─── LOGIN ─── */
         .login-screen {
             display: flex;
             align-items: center;
@@ -37,24 +33,9 @@
             width: 100%;
         }
 
-        .login-logo {
-            font-size: 64px;
-            margin-bottom: 20px;
-            display: block;
-        }
-
-        .login-title {
-            font-size: 28px;
-            font-weight: 700;
-            color: #333;
-            margin-bottom: 8px;
-        }
-
-        .login-subtitle {
-            font-size: 16px;
-            color: #888;
-            margin-bottom: 40px;
-        }
+        .login-logo { font-size: 64px; margin-bottom: 20px; display: block; }
+        .login-title { font-size: 28px; font-weight: 700; color: #333; margin-bottom: 8px; }
+        .login-subtitle { font-size: 16px; color: #888; margin-bottom: 40px; }
 
         .google-btn {
             display: flex;
@@ -80,20 +61,12 @@
             transform: translateY(-2px);
         }
 
-        .google-icon {
-            width: 22px;
-            height: 22px;
-        }
+        .google-btn:disabled { opacity: 0.6; cursor: not-allowed; transform: none; }
+        .google-icon { width: 22px; height: 22px; }
 
-        /* ─── MAIN APP ─── */
-        .app-screen {
-            display: none;
-        }
-
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-        }
+        /* ─── APP ─── */
+        .app-screen { display: none; }
+        .container { max-width: 1200px; margin: 0 auto; }
 
         header {
             background: white;
@@ -108,433 +81,215 @@
             flex-wrap: wrap;
         }
 
-        .header-left {
-            display: flex;
-            align-items: center;
-            gap: 15px;
-        }
+        .header-left { display: flex; align-items: center; gap: 15px; }
 
         .logo {
-            width: 50px;
-            height: 50px;
+            width: 50px; height: 50px;
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             border-radius: 12px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 28px;
-            cursor: pointer;
-            transition: transform 0.2s;
-            flex-shrink: 0;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 28px; cursor: pointer;
+            transition: transform 0.2s; flex-shrink: 0;
         }
 
         .logo:hover { transform: scale(1.05); }
-
-        h1 {
-            color: #333;
-            font-size: 22px;
-        }
-
-        .header-right {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            flex-wrap: wrap;
-        }
+        h1 { color: #333; font-size: 22px; }
+        .header-right { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
 
         .user-info {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            background: #f8f9fa;
-            padding: 8px 14px;
-            border-radius: 20px;
+            display: flex; align-items: center; gap: 8px;
+            background: #f8f9fa; padding: 8px 14px; border-radius: 20px;
         }
 
-        .user-avatar {
-            width: 28px;
-            height: 28px;
-            border-radius: 50%;
-            object-fit: cover;
-        }
+        .user-avatar { width: 28px; height: 28px; border-radius: 50%; object-fit: cover; }
 
         .user-avatar-placeholder {
-            width: 28px;
-            height: 28px;
-            border-radius: 50%;
+            width: 28px; height: 28px; border-radius: 50%;
             background: linear-gradient(135deg, #667eea, #764ba2);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: white;
-            font-size: 13px;
-            font-weight: 700;
+            display: flex; align-items: center; justify-content: center;
+            color: white; font-size: 13px; font-weight: 700;
         }
 
         .user-name {
-            font-size: 14px;
-            color: #555;
-            font-weight: 500;
-            max-width: 130px;
-            overflow: hidden;
-            text-overflow: ellipsis;
-            white-space: nowrap;
+            font-size: 14px; color: #555; font-weight: 500;
+            max-width: 130px; overflow: hidden;
+            text-overflow: ellipsis; white-space: nowrap;
         }
 
         .logout-btn {
-            background: #f3f4f6;
-            border: none;
-            padding: 8px 14px;
-            border-radius: 20px;
-            font-size: 13px;
-            color: #666;
-            cursor: pointer;
-            transition: all 0.2s;
+            background: #f3f4f6; border: none;
+            padding: 8px 14px; border-radius: 20px;
+            font-size: 13px; color: #666; cursor: pointer; transition: all 0.2s;
         }
 
-        .logout-btn:hover {
-            background: #fee2e2;
-            color: #ef4444;
-        }
+        .logout-btn:hover { background: #fee2e2; color: #ef4444; }
 
         .mode-indicator {
-            background: #f0f0f0;
-            padding: 8px 16px;
-            border-radius: 20px;
-            font-size: 14px;
-            color: #666;
+            background: #f0f0f0; padding: 8px 16px;
+            border-radius: 20px; font-size: 14px; color: #666;
         }
 
-        .mode-indicator.edit-mode {
-            background: #fef3c7;
-            color: #92400e;
-        }
+        .mode-indicator.edit-mode { background: #fef3c7; color: #92400e; }
 
         .add-card-btn {
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
-            border: none;
-            padding: 12px 24px;
-            border-radius: 10px;
-            font-size: 16px;
-            cursor: pointer;
-            display: none;
-            transition: transform 0.2s;
+            color: white; border: none;
+            padding: 12px 24px; border-radius: 10px;
+            font-size: 16px; cursor: pointer; display: none; transition: transform 0.2s;
         }
 
         .add-card-btn:hover { transform: translateY(-2px); }
         .add-card-btn.visible { display: block; }
 
-        .search-container {
-            max-width: 600px;
-            margin: 0 auto 30px;
-        }
+        .search-container { max-width: 600px; margin: 0 auto 30px; }
 
         .search-box {
-            width: 100%;
-            padding: 15px 20px;
-            font-size: 18px;
-            border: none;
-            border-radius: 12px;
+            width: 100%; padding: 15px 20px; font-size: 18px;
+            border: none; border-radius: 12px;
             box-shadow: 0 5px 15px rgba(0,0,0,0.1);
             transition: transform 0.2s, box-shadow 0.2s;
         }
 
         .search-box:focus {
-            outline: none;
-            transform: translateY(-2px);
+            outline: none; transform: translateY(-2px);
             box-shadow: 0 8px 20px rgba(0,0,0,0.15);
         }
 
         .cards-grid {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-            gap: 20px;
-            margin-top: 20px;
+            gap: 20px; margin-top: 20px;
         }
 
         .card {
-            background: white;
-            border-radius: 15px;
-            padding: 20px;
+            background: white; border-radius: 15px; padding: 20px;
             box-shadow: 0 5px 15px rgba(0,0,0,0.1);
-            transition: transform 0.2s, box-shadow 0.2s;
-            position: relative;
+            transition: transform 0.2s, box-shadow 0.2s; position: relative;
         }
 
-        .card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 10px 25px rgba(0,0,0,0.15);
-        }
+        .card:hover { transform: translateY(-5px); box-shadow: 0 10px 25px rgba(0,0,0,0.15); }
 
         .card-image {
-            width: 100%;
-            height: 200px;
-            object-fit: contain;
-            border-radius: 10px;
-            background: #f8f9fa;
-            margin-bottom: 15px;
+            width: 100%; height: 200px; object-fit: contain;
+            border-radius: 10px; background: #f8f9fa; margin-bottom: 15px;
         }
 
-        .card-name {
-            font-size: 24px;
-            font-weight: 700;
-            color: #333;
-            text-align: center;
-        }
-
-        .card-actions {
-            display: none;
-            gap: 10px;
-            margin-top: 15px;
-        }
-
+        .card-name { font-size: 24px; font-weight: 700; color: #333; text-align: center; }
+        .card-actions { display: none; gap: 10px; margin-top: 15px; }
         .card-actions.visible { display: flex; }
 
         .btn {
-            flex: 1;
-            padding: 8px 16px;
-            border: none;
-            border-radius: 8px;
-            cursor: pointer;
-            font-size: 14px;
-            transition: opacity 0.2s;
+            flex: 1; padding: 8px 16px; border: none;
+            border-radius: 8px; cursor: pointer; font-size: 14px; transition: opacity 0.2s;
         }
 
         .btn:hover { opacity: 0.8; }
         .btn-edit { background: #3b82f6; color: white; }
         .btn-delete { background: #ef4444; color: white; }
 
-        /* ─── MODALS ─── */
         .modal {
-            display: none;
-            position: fixed;
-            top: 0; left: 0;
-            width: 100%; height: 100%;
-            background: rgba(0,0,0,0.5);
-            z-index: 1000;
-            align-items: center;
-            justify-content: center;
+            display: none; position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.5); z-index: 1000;
+            align-items: center; justify-content: center;
         }
 
         .modal.visible { display: flex; }
 
         .modal-content {
-            background: white;
-            padding: 30px;
-            border-radius: 15px;
-            max-width: 500px;
-            width: 90%;
-            max-height: 90vh;
-            overflow-y: auto;
+            background: white; padding: 30px; border-radius: 15px;
+            max-width: 500px; width: 90%; max-height: 90vh; overflow-y: auto;
         }
 
-        .modal-header {
-            font-size: 24px;
-            font-weight: 600;
-            margin-bottom: 20px;
-            color: #333;
-        }
-
+        .modal-header { font-size: 24px; font-weight: 600; margin-bottom: 20px; color: #333; }
         .form-group { margin-bottom: 20px; }
-
-        .form-group label {
-            display: block;
-            margin-bottom: 8px;
-            font-weight: 500;
-            color: #555;
-        }
+        .form-group label { display: block; margin-bottom: 8px; font-weight: 500; color: #555; }
 
         .form-group input {
-            width: 100%;
-            padding: 12px;
-            border: 2px solid #e5e7eb;
-            border-radius: 8px;
-            font-size: 16px;
-            transition: border-color 0.2s;
+            width: 100%; padding: 12px;
+            border: 2px solid #e5e7eb; border-radius: 8px;
+            font-size: 16px; transition: border-color 0.2s;
         }
 
         .form-group input[type="file"] { padding: 8px; cursor: pointer; }
         .form-group input:focus { outline: none; border-color: #667eea; }
 
         .image-preview {
-            width: 100%;
-            max-height: 200px;
-            object-fit: contain;
-            border-radius: 8px;
-            margin-top: 10px;
-            background: #f8f9fa;
-            display: none;
+            width: 100%; max-height: 200px; object-fit: contain;
+            border-radius: 8px; margin-top: 10px; background: #f8f9fa; display: none;
         }
 
         .image-preview.visible { display: block; }
 
-        .modal-actions {
-            display: flex;
-            gap: 10px;
-            margin-top: 25px;
+        .upload-progress {
+            display: none; margin-top: 10px;
+            font-size: 14px; color: #667eea; text-align: center;
         }
 
+        .upload-progress.visible { display: block; }
+
+        .modal-actions { display: flex; gap: 10px; margin-top: 25px; }
+
         .btn-primary {
-            flex: 1;
-            padding: 12px;
+            flex: 1; padding: 12px;
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
-            border: none;
-            border-radius: 8px;
-            font-size: 16px;
-            cursor: pointer;
-            transition: transform 0.2s;
+            color: white; border: none; border-radius: 8px;
+            font-size: 16px; cursor: pointer; transition: transform 0.2s;
         }
 
         .btn-primary:hover { transform: translateY(-2px); }
-        .btn-primary:disabled { opacity: 0.6; cursor: not-allowed; }
+        .btn-primary:disabled { opacity: 0.6; cursor: not-allowed; transform: none; }
 
         .btn-secondary {
-            flex: 1;
-            padding: 12px;
-            background: #6b7280;
-            color: white;
-            border: none;
-            border-radius: 8px;
-            font-size: 16px;
-            cursor: pointer;
-            transition: transform 0.2s;
+            flex: 1; padding: 12px; background: #6b7280;
+            color: white; border: none; border-radius: 8px;
+            font-size: 16px; cursor: pointer; transition: transform 0.2s;
         }
 
         .btn-secondary:hover { transform: translateY(-2px); }
 
-        .empty-state {
-            text-align: center;
-            padding: 60px 20px;
-            color: white;
-        }
-
+        .empty-state { text-align: center; padding: 60px 20px; color: white; }
         .empty-state h2 { font-size: 32px; margin-bottom: 10px; }
         .empty-state p { font-size: 18px; opacity: 0.9; }
 
-        .loading {
-            text-align: center;
-            padding: 40px;
-            color: white;
-            font-size: 18px;
-        }
+        .loading { text-align: center; padding: 40px; color: white; font-size: 18px; }
 
-        /* ─── FULLSCREEN MODAL ─── */
         .fullscreen-modal {
-            display: none;
-            position: fixed;
-            top: 0; left: 0;
-            width: 100%; height: 100%;
-            background: rgba(0, 0, 0, 0.95);
-            z-index: 2000;
-            align-items: center;
-            justify-content: center;
-            padding: 20px;
+            display: none; position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.95); z-index: 2000;
+            align-items: center; justify-content: center; padding: 20px;
         }
 
         .fullscreen-modal.visible { display: flex; }
 
         .fullscreen-content {
-            max-width: 90%;
-            max-height: 90%;
-            background: white;
-            border-radius: 15px;
-            padding: 30px;
+            max-width: 90%; max-height: 90%; background: white;
+            border-radius: 15px; padding: 30px;
             box-shadow: 0 20px 60px rgba(0,0,0,0.5);
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            position: relative;
+            display: flex; flex-direction: column; align-items: center; position: relative;
         }
 
         .fullscreen-close {
-            position: absolute;
-            top: 15px; right: 15px;
-            background: #ef4444;
-            color: white;
-            border: none;
-            width: 40px; height: 40px;
-            border-radius: 50%;
-            font-size: 24px;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            transition: transform 0.2s;
-            z-index: 10;
+            position: absolute; top: 15px; right: 15px;
+            background: #ef4444; color: white; border: none;
+            width: 40px; height: 40px; border-radius: 50%; font-size: 24px;
+            cursor: pointer; display: flex; align-items: center; justify-content: center;
+            transition: transform 0.2s; z-index: 10;
         }
 
         .fullscreen-close:hover { transform: scale(1.1); }
 
         .fullscreen-image {
-            max-width: 100%;
-            max-height: 60vh;
-            object-fit: contain;
-            border-radius: 10px;
-            margin-bottom: 20px;
+            max-width: 100%; max-height: 60vh;
+            object-fit: contain; border-radius: 10px; margin-bottom: 20px;
         }
 
-        .fullscreen-name {
-            font-size: 48px;
-            font-weight: 700;
-            color: #333;
-            text-align: center;
-        }
-
-        /* ─── MIGRATION BANNER ─── */
-        .migration-banner {
-            display: none;
-            background: white;
-            border-radius: 15px;
-            padding: 20px 24px;
-            margin-bottom: 24px;
-            box-shadow: 0 5px 20px rgba(0,0,0,0.15);
-            align-items: center;
-            justify-content: space-between;
-            gap: 16px;
-            flex-wrap: wrap;
-        }
-
-        .migration-banner.visible { display: flex; }
-
-        .migration-text { flex: 1; min-width: 200px; }
-        .migration-text strong { display: block; color: #333; font-size: 16px; margin-bottom: 4px; }
-        .migration-text span { color: #888; font-size: 14px; }
-
-        .migration-actions { display: flex; gap: 8px; flex-shrink: 0; }
-
-        .btn-migrate {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
-            border: none;
-            padding: 10px 20px;
-            border-radius: 8px;
-            font-size: 14px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: transform 0.2s;
-        }
-
-        .btn-migrate:hover { transform: translateY(-1px); }
-        .btn-migrate:disabled { opacity: 0.6; cursor: not-allowed; }
-
-        .btn-dismiss {
-            background: #f3f4f6;
-            color: #666;
-            border: none;
-            padding: 10px 16px;
-            border-radius: 8px;
-            font-size: 14px;
-            cursor: pointer;
-        }
-
-        .btn-dismiss:hover { background: #e5e7eb; }
+        .fullscreen-name { font-size: 48px; font-weight: 700; color: #333; text-align: center; }
     </style>
 </head>
 <body>
 
-    <!-- ─── SCHERMATA LOGIN ─── -->
     <div class="login-screen" id="loginScreen">
         <div class="login-card">
             <span class="login-logo">🛒</span>
@@ -546,14 +301,12 @@
                     <path fill="#4285F4" d="M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.78 7.18l7.73 6c4.51-4.18 7.09-10.36 7.09-17.65z"/>
                     <path fill="#FBBC05" d="M10.53 28.59c-.48-1.45-.76-2.99-.76-4.59s.27-3.14.76-4.59l-7.98-6.19C.92 16.46 0 20.12 0 24c0 3.88.92 7.54 2.56 10.78l7.97-6.19z"/>
                     <path fill="#34A853" d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.18 1.48-4.97 2.35-8.16 2.35-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z"/>
-                    <path fill="none" d="M0 0h48v48H0z"/>
                 </svg>
                 Accedi con Google
             </button>
         </div>
     </div>
 
-    <!-- ─── APP PRINCIPALE ─── -->
     <div class="app-screen" id="appScreen">
         <div class="container">
             <header>
@@ -571,18 +324,6 @@
                 </div>
             </header>
 
-            <!-- Banner migrazione vecchie card -->
-            <div class="migration-banner" id="migrationBanner">
-                <div class="migration-text">
-                    <strong>📦 Hai card nel vecchio database!</strong>
-                    <span>Vuoi importarle nel tuo account personale?</span>
-                </div>
-                <div class="migration-actions">
-                    <button class="btn-migrate" id="migrateBtn">Importa card</button>
-                    <button class="btn-dismiss" id="dismissMigrationBtn">Ignora</button>
-                </div>
-            </div>
-
             <button class="add-card-btn" id="addCardBtn">+ Aggiungi Card</button>
 
             <div class="search-container">
@@ -591,7 +332,7 @@
 
             <div id="loadingState" class="loading">Caricamento card...</div>
 
-            <div id="emptyState" class="empty-state" style="display: none;">
+            <div id="emptyState" class="empty-state" style="display:none">
                 <h2>📇</h2>
                 <h2>Nessuna card salvata</h2>
                 <p>Attiva la modalità modifica per aggiungere le tue card</p>
@@ -601,7 +342,6 @@
         </div>
     </div>
 
-    <!-- Modal aggiunta/modifica -->
     <div class="modal" id="cardModal">
         <div class="modal-content">
             <div class="modal-header" id="modalTitle">Aggiungi Card</div>
@@ -612,18 +352,18 @@
                 </div>
                 <div class="form-group">
                     <label>Immagine Card</label>
-                    <input type="file" id="cardImage" accept="image/*" required>
+                    <input type="file" id="cardImage" accept="image/*">
                     <img class="image-preview" id="imagePreview" alt="Anteprima">
+                    <div class="upload-progress" id="uploadProgress">⏳ Caricamento immagine in corso...</div>
                 </div>
                 <div class="modal-actions">
-                    <button type="submit" class="btn-primary">Salva</button>
+                    <button type="submit" class="btn-primary" id="submitBtn">Salva</button>
                     <button type="button" class="btn-secondary" id="cancelBtn">Annulla</button>
                 </div>
             </form>
         </div>
     </div>
 
-    <!-- Modal schermo intero -->
     <div class="fullscreen-modal" id="fullscreenModal">
         <div class="fullscreen-content">
             <button class="fullscreen-close" id="fullscreenClose">×</button>
@@ -634,82 +374,77 @@
 
     <script type="module">
         import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js';
-        import { getDatabase, ref, set, get, remove, push } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js';
         import {
-            getAuth,
-            GoogleAuthProvider,
-            signInWithPopup,
-            signInWithRedirect,
-            getRedirectResult,
-            signOut,
-            onAuthStateChanged
+            getFirestore, collection, doc, getDocs,
+            addDoc, updateDoc, deleteDoc, query, orderBy
+        } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js';
+        import {
+            getAuth, GoogleAuthProvider,
+            signInWithPopup, signInWithRedirect, getRedirectResult,
+            signOut, onAuthStateChanged
         } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js';
 
-        // ─── CONFIGURAZIONE FIREBASE ───
+        // ─── CONFIGURAZIONE ───
         const firebaseConfig = {
-            apiKey: "AIzaSyDgbOSab7lRL1pKLFkT6MOlTFmtf-xf61Y",
-            authDomain: "meteore-31062.firebaseapp.com",
-            databaseURL: "https://meteore-31062-default-rtdb.europe-west1.firebasedatabase.app",
-            projectId: "meteore-31062",
-            storageBucket: "meteore-31062.firebasestorage.app",
-            messagingSenderId: "723550096158",
-            appId: "1:723550096158:web:49005ffade790fe979d70f"
+            apiKey: "AIzaSyDXxsmKe58Ncsp1-p72OE-x0AQQzjevs6w",
+            authDomain: "scard-88c52.firebaseapp.com",
+            projectId: "scard-88c52",
+            storageBucket: "scard-88c52.firebasestorage.app",
+            messagingSenderId: "1005545272632",
+            appId: "1:1005545272632:web:cd11baf4f892f023097dcd"
         };
 
-        const app = initializeApp(firebaseConfig);
-        const database = getDatabase(app);
-        const auth = getAuth(app);
+        const CLOUDINARY_CLOUD  = 'dpjdgvydp';
+        const CLOUDINARY_PRESET = 'supermarket_cards'; // da creare su Cloudinary
+
+        const app      = initializeApp(firebaseConfig);
+        const db       = getFirestore(app);
+        const auth     = getAuth(app);
         const provider = new GoogleAuthProvider();
 
         // ─── STATO ───
-        let editMode = false;
-        let clickCount = 0;
-        let clickTimer = null;
+        let editMode             = false;
+        let clickCount           = 0;
+        let clickTimer           = null;
         let currentEditingCardId = null;
-        let cards = {};
-        let selectedImageBase64 = null;
-        let currentUser = null;
-        let cardsRef = null;
+        let cards                = [];
+        let selectedFile         = null;
+        let currentUser          = null;
 
         // ─── DOM ───
-        const loginScreen     = document.getElementById('loginScreen');
-        const appScreen       = document.getElementById('appScreen');
-        const googleLoginBtn  = document.getElementById('googleLoginBtn');
-        const logoutBtn       = document.getElementById('logoutBtn');
-        const userInfo        = document.getElementById('userInfo');
-        const userName        = document.getElementById('userName');
+        const loginScreen    = document.getElementById('loginScreen');
+        const appScreen      = document.getElementById('appScreen');
+        const googleLoginBtn = document.getElementById('googleLoginBtn');
+        const logoutBtn      = document.getElementById('logoutBtn');
+        const userInfo       = document.getElementById('userInfo');
+        const userName       = document.getElementById('userName');
         const userAvatarPlaceholder = document.getElementById('userAvatarPlaceholder');
-        const logo            = document.getElementById('logo');
-        const modeIndicator   = document.getElementById('modeIndicator');
-        const addCardBtn      = document.getElementById('addCardBtn');
-        const cardsGrid       = document.getElementById('cardsGrid');
-        const cardModal       = document.getElementById('cardModal');
-        const cardForm        = document.getElementById('cardForm');
-        const modalTitle      = document.getElementById('modalTitle');
-        const cancelBtn       = document.getElementById('cancelBtn');
-        const imagePreview    = document.getElementById('imagePreview');
-        const cardImageInput  = document.getElementById('cardImage');
-        const loadingState    = document.getElementById('loadingState');
-        const emptyState      = document.getElementById('emptyState');
+        const logo           = document.getElementById('logo');
+        const modeIndicator  = document.getElementById('modeIndicator');
+        const addCardBtn     = document.getElementById('addCardBtn');
+        const cardsGrid      = document.getElementById('cardsGrid');
+        const cardModal      = document.getElementById('cardModal');
+        const cardForm       = document.getElementById('cardForm');
+        const modalTitle     = document.getElementById('modalTitle');
+        const cancelBtn      = document.getElementById('cancelBtn');
+        const submitBtn      = document.getElementById('submitBtn');
+        const imagePreview   = document.getElementById('imagePreview');
+        const cardImageInput = document.getElementById('cardImage');
+        const uploadProgress = document.getElementById('uploadProgress');
+        const loadingState   = document.getElementById('loadingState');
+        const emptyState     = document.getElementById('emptyState');
         const fullscreenModal = document.getElementById('fullscreenModal');
         const fullscreenClose = document.getElementById('fullscreenClose');
         const fullscreenImage = document.getElementById('fullscreenImage');
         const fullscreenName  = document.getElementById('fullscreenName');
         const searchBox       = document.getElementById('searchBox');
 
-        // ─── GESTIONE REDIRECT (mobile) ───
-        getRedirectResult(auth).catch((error) => {
-            console.error('Errore redirect login:', error);
-        });
+        // ─── AUTH ───
+        getRedirectResult(auth).catch(err => console.error('Redirect error:', err));
 
-        // ─── AUTENTICAZIONE ───
         onAuthStateChanged(auth, (user) => {
             if (user) {
                 currentUser = user;
-                // Ogni utente ha il suo percorso privato nel DB
-                cardsRef = ref(database, `users/${user.uid}/supermarket-cards`);
-
-                // Mostra avatar o iniziale
                 if (user.photoURL) {
                     userAvatarPlaceholder.style.display = 'none';
                     const img = document.createElement('img');
@@ -720,20 +455,16 @@
                     userAvatarPlaceholder.textContent = (user.displayName || user.email || 'U')[0].toUpperCase();
                 }
                 userName.textContent = user.displayName || user.email;
-
                 loginScreen.style.display = 'none';
                 appScreen.style.display = 'block';
                 loadCards();
-                checkMigration();
             } else {
                 currentUser = null;
-                cardsRef = null;
                 loginScreen.style.display = 'flex';
                 appScreen.style.display = 'none';
             }
         });
 
-        // Login con Google
         googleLoginBtn.addEventListener('click', async () => {
             try {
                 googleLoginBtn.disabled = true;
@@ -747,26 +478,17 @@
             } catch (error) {
                 console.error('Errore login:', error);
                 googleLoginBtn.disabled = false;
-                googleLoginBtn.innerHTML = `
-                    <svg class="google-icon" viewBox="0 0 48 48">
-                        <path fill="#EA4335" d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z"/>
-                        <path fill="#4285F4" d="M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.78 7.18l7.73 6c4.51-4.18 7.09-10.36 7.09-17.65z"/>
-                        <path fill="#FBBC05" d="M10.53 28.59c-.48-1.45-.76-2.99-.76-4.59s.27-3.14.76-4.59l-7.98-6.19C.92 16.46 0 20.12 0 24c0 3.88.92 7.54 2.56 10.78l7.97-6.19z"/>
-                        <path fill="#34A853" d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.18 1.48-4.97 2.35-8.16 2.35-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z"/>
-                    </svg>
-                    Accedi con Google
-                `;
-                alert('Errore durante il login. Riprova.');
+                googleLoginBtn.innerHTML = `<svg class="google-icon" viewBox="0 0 48 48"><path fill="#EA4335" d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z"/><path fill="#4285F4" d="M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.78 7.18l7.73 6c4.51-4.18 7.09-10.36 7.09-17.65z"/><path fill="#FBBC05" d="M10.53 28.59c-.48-1.45-.76-2.99-.76-4.59s.27-3.14.76-4.59l-7.98-6.19C.92 16.46 0 20.12 0 24c0 3.88.92 7.54 2.56 10.78l7.97-6.19z"/><path fill="#34A853" d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.18 1.48-4.97 2.35-8.16 2.35-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z"/></svg> Accedi con Google`;
+                alert('Errore: ' + error.message);
             }
         });
 
-        // Logout
         logoutBtn.addEventListener('click', async () => {
             editMode = false;
             await signOut(auth);
         });
 
-        // ─── MODALITÀ MODIFICA (5 click sul logo) ───
+        // ─── MODALITÀ MODIFICA ───
         logo.addEventListener('click', () => {
             clickCount++;
             if (clickTimer) clearTimeout(clickTimer);
@@ -792,19 +514,36 @@
             }
         }
 
-        // ─── CARD CRUD ───
+        // ─── CLOUDINARY UPLOAD ───
+        async function uploadToCloudinary(file) {
+            const formData = new FormData();
+            formData.append('file', file);
+            formData.append('upload_preset', CLOUDINARY_PRESET);
+            formData.append('folder', `supermarket-cards/${currentUser.uid}`);
+
+            const res = await fetch(`https://api.cloudinary.com/v1_1/${CLOUDINARY_CLOUD}/image/upload`, {
+                method: 'POST',
+                body: formData
+            });
+
+            if (!res.ok) throw new Error('Errore upload immagine su Cloudinary');
+            const data = await res.json();
+            return data.secure_url;
+        }
+
+        // ─── MODAL ───
         addCardBtn.addEventListener('click', () => {
             currentEditingCardId = null;
-            selectedImageBase64 = null;
+            selectedFile = null;
             modalTitle.textContent = 'Aggiungi Card';
             cardForm.reset();
-            document.getElementById('cardImage').required = true;
+            cardImageInput.required = true;
             imagePreview.classList.remove('visible');
+            uploadProgress.classList.remove('visible');
             cardModal.classList.add('visible');
         });
 
         cancelBtn.addEventListener('click', () => cardModal.classList.remove('visible'));
-
         fullscreenClose.addEventListener('click', () => fullscreenModal.classList.remove('visible'));
         fullscreenModal.addEventListener('click', (e) => {
             if (e.target === fullscreenModal) fullscreenModal.classList.remove('visible');
@@ -815,124 +554,79 @@
         cardImageInput.addEventListener('change', (e) => {
             const file = e.target.files[0];
             if (file && file.type.startsWith('image/')) {
+                selectedFile = file;
                 const reader = new FileReader();
-                reader.onload = (e) => {
-                    selectedImageBase64 = e.target.result;
-                    imagePreview.src = selectedImageBase64;
+                reader.onload = (ev) => {
+                    imagePreview.src = ev.target.result;
                     imagePreview.classList.add('visible');
-                };
-                reader.onerror = () => {
-                    alert('Errore nella lettura del file');
-                    selectedImageBase64 = null;
-                    imagePreview.classList.remove('visible');
                 };
                 reader.readAsDataURL(file);
             } else {
-                selectedImageBase64 = null;
+                selectedFile = null;
                 imagePreview.classList.remove('visible');
             }
         });
 
         cardForm.addEventListener('submit', async (e) => {
             e.preventDefault();
-            const submitBtn = cardForm.querySelector('.btn-primary');
             submitBtn.disabled = true;
 
             try {
-                const imageData = selectedImageBase64 || (currentEditingCardId && cards[currentEditingCardId] ? cards[currentEditingCardId].image : null);
-                if (!imageData) throw new Error("Devi selezionare un'immagine");
+                let imageUrl = null;
+
+                if (selectedFile) {
+                    uploadProgress.classList.add('visible');
+                    imageUrl = await uploadToCloudinary(selectedFile);
+                    uploadProgress.classList.remove('visible');
+                } else if (currentEditingCardId) {
+                    const existing = cards.find(c => c.id === currentEditingCardId);
+                    imageUrl = existing?.imageUrl || null;
+                }
+
+                if (!imageUrl) throw new Error("Devi selezionare un'immagine");
 
                 const cardData = {
                     name: document.getElementById('cardName').value,
-                    image: imageData,
-                    timestamp: Date.now()
+                    imageUrl,
+                    updatedAt: Date.now()
                 };
 
+                const cardsRef = collection(db, `users/${currentUser.uid}/cards`);
+
                 if (currentEditingCardId) {
-                    await set(ref(database, `users/${currentUser.uid}/supermarket-cards/${currentEditingCardId}`), cardData);
+                    await updateDoc(doc(db, `users/${currentUser.uid}/cards`, currentEditingCardId), cardData);
                 } else {
-                    await push(cardsRef, cardData);
+                    cardData.createdAt = Date.now();
+                    await addDoc(cardsRef, cardData);
                 }
 
                 cardModal.classList.remove('visible');
-                selectedImageBase64 = null;
+                selectedFile = null;
                 submitBtn.disabled = false;
                 loadCards();
+
             } catch (error) {
                 console.error('Errore:', error);
                 submitBtn.disabled = false;
+                uploadProgress.classList.remove('visible');
                 alert('Errore: ' + error.message);
             }
         });
 
-        // ─── MIGRAZIONE VECCHIE CARD ───
-        const migrationBanner = document.getElementById('migrationBanner');
-        const migrateBtn = document.getElementById('migrateBtn');
-        const dismissMigrationBtn = document.getElementById('dismissMigrationBtn');
-        const oldCardsRef = ref(database, 'supermarket-cards');
-        const MIGRATION_KEY = 'migration_done_v1';
-
-        async function checkMigration() {
-            // Se già migrato o ignorato, non mostrare il banner
-            if (localStorage.getItem(MIGRATION_KEY)) return;
-            try {
-                const snapshot = await get(oldCardsRef);
-                if (snapshot.exists()) {
-                    migrationBanner.classList.add('visible');
-                }
-            } catch (e) {
-                console.log('Nessuna vecchia card trovata');
-            }
-        }
-
-        migrateBtn.addEventListener('click', async () => {
-            migrateBtn.disabled = true;
-            migrateBtn.textContent = 'Importazione...';
-            try {
-                const snapshot = await get(oldCardsRef);
-                if (snapshot.exists()) {
-                    const oldCards = snapshot.val();
-                    const entries = Object.values(oldCards);
-                    for (const card of entries) {
-                        await push(cardsRef, {
-                            name: card.name,
-                            image: card.image,
-                            timestamp: card.timestamp || Date.now()
-                        });
-                    }
-                    localStorage.setItem(MIGRATION_KEY, '1');
-                    migrationBanner.classList.remove('visible');
-                    alert('✅ ' + entries.length + ' card importate con successo!');
-                    loadCards();
-                }
-            } catch (error) {
-                console.error('Errore migrazione:', error);
-                alert('Errore durante l importazione: ' + error.message);
-                migrateBtn.disabled = false;
-                migrateBtn.textContent = 'Importa card';
-            }
-        });
-
-        dismissMigrationBtn.addEventListener('click', () => {
-            localStorage.setItem(MIGRATION_KEY, '1');
-            migrationBanner.classList.remove('visible');
-        });
-
+        // ─── CARICA CARD ───
         async function loadCards() {
             try {
                 loadingState.style.display = 'block';
                 emptyState.style.display = 'none';
                 cardsGrid.innerHTML = '';
 
-                const snapshot = await get(cardsRef);
-                if (snapshot.exists()) {
-                    cards = snapshot.val();
-                    renderCards();
-                } else {
-                    cards = {};
-                    loadingState.style.display = 'none';
-                    emptyState.style.display = 'block';
-                }
+                const cardsRef = collection(db, `users/${currentUser.uid}/cards`);
+                const q = query(cardsRef, orderBy('createdAt', 'asc'));
+                const snapshot = await getDocs(q);
+
+                cards = snapshot.docs.map(d => ({ id: d.id, ...d.data() }));
+                renderCards();
+
             } catch (error) {
                 console.error('Errore caricamento:', error);
                 loadingState.style.display = 'none';
@@ -945,51 +639,52 @@
             loadingState.style.display = 'none';
             emptyState.style.display = 'none';
 
-            const filteredCards = Object.entries(cards).filter(([id, card]) =>
+            const filtered = cards.filter(card =>
                 !searchTerm || card.name.toLowerCase().includes(searchTerm)
             );
 
-            if (filteredCards.length === 0) {
+            if (filtered.length === 0) {
                 emptyState.style.display = 'block';
                 emptyState.querySelector('h2:last-child').textContent = searchTerm ? 'Nessuna card trovata' : 'Nessuna card salvata';
                 emptyState.querySelector('p').textContent = searchTerm ? 'Prova con un altro termine' : 'Attiva la modalità modifica per aggiungere le tue card';
                 return;
             }
 
-            filteredCards.forEach(([id, card]) => {
-                const cardElement = document.createElement('div');
-                cardElement.className = 'card';
-                cardElement.innerHTML = `
-                    <img src="${card.image}" alt="${card.name}" class="card-image" style="cursor:pointer"
-                         onclick="window.showFullscreen('${id}')"
+            filtered.forEach(card => {
+                const el = document.createElement('div');
+                el.className = 'card';
+                el.innerHTML = `
+                    <img src="${card.imageUrl}" alt="${card.name}" class="card-image" style="cursor:pointer"
+                         onclick="window.showFullscreen('${card.id}')"
                          onerror="this.src='data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%22200%22 height=%22200%22%3E%3Crect fill=%22%23f0f0f0%22 width=%22200%22 height=%22200%22/%3E%3Ctext x=%2250%25%22 y=%2250%25%22 dominant-baseline=%22middle%22 text-anchor=%22middle%22 font-family=%22sans-serif%22 font-size=%2220%22 fill=%22%23999%22%3EImmagine non disponibile%3C/text%3E%3C/svg%3E'">
                     <div class="card-name">${card.name}</div>
                     <div class="card-actions ${editMode ? 'visible' : ''}">
-                        <button class="btn btn-edit" onclick="window.editCard('${id}')">Modifica</button>
-                        <button class="btn btn-delete" onclick="window.deleteCard('${id}')">Elimina</button>
+                        <button class="btn btn-edit" onclick="window.editCard('${card.id}')">Modifica</button>
+                        <button class="btn btn-delete" onclick="window.deleteCard('${card.id}')">Elimina</button>
                     </div>
                 `;
-                cardsGrid.appendChild(cardElement);
+                cardsGrid.appendChild(el);
             });
         }
 
         window.editCard = (id) => {
             currentEditingCardId = id;
-            const card = cards[id];
+            const card = cards.find(c => c.id === id);
             modalTitle.textContent = 'Modifica Card';
             document.getElementById('cardName').value = card.name;
-            imagePreview.src = card.image;
+            imagePreview.src = card.imageUrl;
             imagePreview.classList.add('visible');
-            document.getElementById('cardImage').value = '';
-            document.getElementById('cardImage').required = false;
-            selectedImageBase64 = null;
+            cardImageInput.value = '';
+            cardImageInput.required = false;
+            selectedFile = null;
+            uploadProgress.classList.remove('visible');
             cardModal.classList.add('visible');
         };
 
         window.showFullscreen = (id) => {
-            const card = cards[id];
+            const card = cards.find(c => c.id === id);
             if (card) {
-                fullscreenImage.src = card.image;
+                fullscreenImage.src = card.imageUrl;
                 fullscreenName.textContent = card.name;
                 fullscreenModal.classList.add('visible');
             }
@@ -998,7 +693,7 @@
         window.deleteCard = async (id) => {
             if (confirm('Sei sicuro di voler eliminare questa card?')) {
                 try {
-                    await remove(ref(database, `users/${currentUser.uid}/supermarket-cards/${id}`));
+                    await deleteDoc(doc(db, `users/${currentUser.uid}/cards`, id));
                     loadCards();
                 } catch (error) {
                     console.error('Errore eliminazione:', error);
