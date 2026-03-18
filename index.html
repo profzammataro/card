@@ -440,7 +440,14 @@
         const searchBox       = document.getElementById('searchBox');
 
         // ─── AUTH ───
-        getRedirectResult(auth).catch(err => console.error('Redirect error:', err));
+        // Gestione redirect mobile
+        getRedirectResult(auth).then(result => {
+            if (result && result.user) {
+                console.log('Login via redirect completato:', result.user.email);
+            }
+        }).catch(err => {
+            console.error('Redirect error:', err);
+        });
 
         onAuthStateChanged(auth, (user) => {
             if (user) {
@@ -645,8 +652,10 @@
 
             if (filtered.length === 0) {
                 emptyState.style.display = 'block';
-                emptyState.querySelector('h2:last-child').textContent = searchTerm ? 'Nessuna card trovata' : 'Nessuna card salvata';
-                emptyState.querySelector('p').textContent = searchTerm ? 'Prova con un altro termine' : 'Attiva la modalità modifica per aggiungere le tue card';
+                const h2 = emptyState.querySelectorAll('h2');
+                const p = emptyState.querySelector('p');
+                if (h2.length > 1) h2[1].textContent = searchTerm ? 'Nessuna card trovata' : 'Nessuna card salvata';
+                if (p) p.textContent = searchTerm ? 'Prova con un altro termine' : 'Attiva la modalità modifica per aggiungere le tue card';
                 return;
             }
 
