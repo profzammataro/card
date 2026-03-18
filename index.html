@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Le Mie Card Supermercato</title>
-    <script src="https://unpkg.com/@zxing/library@0.19.1/umd/index.min.js"></script>
+    <script src="https://unpkg.com/html5-qrcode@2.3.8/html5-qrcode.min.js"></script>
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body {
@@ -125,8 +125,9 @@
         .scanner-modal-title { color: white; font-size: 20px; font-weight: 600; }
         .scanner-modal video { width: 100%; max-width: 500px; border-radius: 12px; }
         .scanner-modal-overlay { position: relative; width: 100%; max-width: 500px; }
-        .scanner-modal-line { position: absolute; top: 50%; left: 10%; width: 80%; height: 2px; background: #10b981; box-shadow: 0 0 10px #10b981; animation: scanLine 1.5s ease-in-out infinite alternate; }
-        .scanner-modal-close { background: white; color: #333; border: none; padding: 12px 32px; border-radius: 10px; font-size: 16px; cursor: pointer; }
+        #scannerReader { width: 100%; border-radius: 12px; overflow: hidden; }
+        #scannerReader video { border-radius: 12px; }
+        .scanner-modal-close { background: white; color: #333; border: none; padding: 12px 32px; border-radius: 10px; font-size: 16px; cursor: pointer; margin-top: 10px; }
     </style>
 </head>
 <body>
@@ -226,8 +227,7 @@
     <div class="scanner-modal" id="scannerModal">
         <div class="scanner-modal-title">📷 Inquadra il barcode</div>
         <div class="scanner-modal-overlay">
-            <video id="scannerVideo" autoplay muted playsinline></video>
-            <div class="scanner-modal-line"></div>
+            <div id="scannerReader"></div>
         </div>
         <button class="scanner-modal-close" id="scannerModalClose">Annulla</button>
     </div>
@@ -269,7 +269,7 @@
 
         let editMode = false;
         let currentEditingCardId = null, cards = [], selectedFile = null, currentUser = null;
-        let scannedBarcode = null, codeReader = null, scannerStream = null;
+        let scannedBarcode = null;
 
         // ─── DOM ───
         const loginScreen    = document.getElementById('loginScreen');
@@ -305,7 +305,6 @@
         const barcodeClear     = document.getElementById('barcodeClear');
         const barcodeManual    = document.getElementById('barcodeManual');
         const scannerModal     = document.getElementById('scannerModal');
-        const scannerVideo     = document.getElementById('scannerVideo');
         const scannerModalClose = document.getElementById('scannerModalClose');
 
         // ─── AUTH ───
@@ -383,23 +382,22 @@
             return (await res.json()).secure_url;
         }
 
-        // ─── BARCODE SCANNER ───
+        // ─── BARCODE SCANNER (html5-qrcode) ───
+        let html5QrCode = null;
+
         async function startScanner() {
             try {
-                if (!window.ZXing) { alert('Libreria scanner non ancora caricata, riprova tra un secondo.'); return; }
-                codeReader = new ZXing.BrowserMultiFormatReader();
-                const devices = await ZXing.BrowserMultiFormatReader.listVideoInputDevices();
-                if (!devices.length) { alert('Nessuna fotocamera trovata.'); return; }
-                // Preferisci fotocamera posteriore su mobile
-                const backCam = devices.find(d => /back|rear|environment/i.test(d.label)) || devices[devices.length - 1];
                 scannerModal.classList.add('visible');
-                await codeReader.decodeFromVideoDevice(backCam.deviceId, scannerVideo, (result, err) => {
-                    if (result) {
-                        const code = result.getText();
+                html5QrCode = new Html5Qrcode('scannerReader');
+                await html5QrCode.start(
+                    { facingMode: 'environment' },
+                    { fps: 10, qrbox: { width: 280, height: 120 } },
+                    (decodedText) => {
                         stopScanner();
-                        setBarcode(code);
-                    }
-                });
+                        setBarcode(decodedText);
+                    },
+                    (err) => { /* scan in corso, ignora errori continui */ }
+                );
             } catch (err) {
                 console.error('Errore scanner:', err);
                 stopScanner();
@@ -407,8 +405,11 @@
             }
         }
 
-        function stopScanner() {
-            if (codeReader) { codeReader.reset(); codeReader = null; }
+        async function stopScanner() {
+            if (html5QrCode) {
+                try { await html5QrCode.stop(); } catch(e) {}
+                html5QrCode = null;
+            }
             scannerModal.classList.remove('visible');
         }
 
