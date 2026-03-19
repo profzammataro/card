@@ -44,11 +44,10 @@
         .user-name { font-size: 14px; color: #555; font-weight: 500; max-width: 130px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
         .logout-btn { background: #f3f4f6; border: none; padding: 8px 14px; border-radius: 20px; font-size: 13px; color: #666; cursor: pointer; transition: all 0.2s; }
         .logout-btn:hover { background: #fee2e2; color: #ef4444; }
-        .lock-btn { background: #f0f0f0; border: none; padding: 8px 14px; border-radius: 20px; font-size: 20px; cursor: pointer; transition: all 0.2s; display: flex; align-items: center; gap: 6px; }
-        .lock-btn:hover { background: #e5e7eb; transform: scale(1.05); }
-        .lock-btn.unlocked { background: #fef3c7; }
-        .lock-btn span { font-size: 13px; font-weight: 500; color: #666; }
-        .lock-btn.unlocked span { color: #92400e; }
+        .toggle-btn { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); border: none; width: 38px; height: 38px; border-radius: 50%; font-size: 22px; color: white; cursor: pointer; transition: all 0.2s; display: flex; align-items: center; justify-content: center; box-shadow: 0 3px 10px rgba(102,126,234,0.4); }
+        .toggle-btn:hover { transform: scale(1.1); box-shadow: 0 5px 16px rgba(102,126,234,0.5); }
+        .toggle-btn.active { background: linear-gradient(135deg, #f59e0b 0%, #ef4444 100%); box-shadow: 0 3px 10px rgba(239,68,68,0.4); }
+        .toggle-btn.active:hover { box-shadow: 0 5px 16px rgba(239,68,68,0.5); }
         .add-card-btn { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; border: none; padding: 12px 24px; border-radius: 10px; font-size: 16px; cursor: pointer; display: none; transition: transform 0.2s; }
         .add-card-btn:hover { transform: translateY(-2px); }
         .add-card-btn.visible { display: block; }
@@ -200,9 +199,7 @@
                         <div class="user-avatar-placeholder" id="userAvatarPlaceholder"></div>
                         <span class="user-name" id="userName"></span>
                     </div>
-                    <button class="lock-btn" id="lockBtn" title="Clicca per sbloccare la modifica">
-                        🔒 <span id="lockLabel">Modifica</span>
-                    </button>
+                    <button class="toggle-btn" id="lockBtn" title="Aggiungi o modifica card">＋</button>
                     <button class="logout-btn" id="logoutBtn">Esci</button>
                 </div>
             </header>
@@ -425,9 +422,8 @@
 
         logoutBtn.addEventListener('click', async () => { editMode = false; await signOut(auth); });
 
-        // ─── LUCCHETTO MODIFICA ───
-        const lockBtn   = document.getElementById('lockBtn');
-        const lockLabel = document.getElementById('lockLabel');
+        // ─── TOGGLE MODIFICA ───
+        const lockBtn = document.getElementById('lockBtn');
 
         lockBtn.addEventListener('click', () => {
             editMode = !editMode;
@@ -436,14 +432,15 @@
 
         function updateMode() {
             if (editMode) {
-                lockBtn.textContent = '';
-                lockBtn.innerHTML = '🔓 <span id="lockLabel">Blocca</span>';
-                lockBtn.classList.add('unlocked');
+                lockBtn.textContent = '✕';
+                lockBtn.classList.add('active');
+                lockBtn.title = 'Esci dalla modalità modifica';
                 addCardBtn.classList.add('visible');
                 document.querySelectorAll('.card-actions').forEach(el => el.classList.add('visible'));
             } else {
-                lockBtn.innerHTML = '🔒 <span id="lockLabel">Modifica</span>';
-                lockBtn.classList.remove('unlocked');
+                lockBtn.textContent = '＋';
+                lockBtn.classList.remove('active');
+                lockBtn.title = 'Aggiungi o modifica card';
                 addCardBtn.classList.remove('visible');
                 document.querySelectorAll('.card-actions').forEach(el => el.classList.remove('visible'));
             }
