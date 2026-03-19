@@ -22,6 +22,11 @@
         .google-btn { display: flex; align-items: center; justify-content: center; gap: 12px; width: 100%; padding: 14px 24px; background: white; border: 2px solid #e5e7eb; border-radius: 12px; font-size: 16px; font-weight: 600; color: #333; cursor: pointer; transition: all 0.2s; box-shadow: 0 2px 8px rgba(0,0,0,0.08); }
         .google-btn:hover { border-color: #667eea; box-shadow: 0 4px 16px rgba(102,126,234,0.25); transform: translateY(-2px); }
         .google-btn:disabled { opacity: 0.6; cursor: not-allowed; transform: none; }
+        .privacy-check { display: flex; align-items: flex-start; gap: 10px; margin-bottom: 20px; text-align: left; }
+        .privacy-check input[type="checkbox"] { width: 18px; height: 18px; margin-top: 2px; cursor: pointer; accent-color: #667eea; flex-shrink: 0; }
+        .privacy-check label { font-size: 13px; color: #666; line-height: 1.5; cursor: pointer; }
+        .privacy-check label a { color: #667eea; text-decoration: none; font-weight: 500; }
+        .privacy-check label a:hover { text-decoration: underline; }
         .google-icon { width: 22px; height: 22px; }
 
         /* ─── APP ─── */
@@ -164,7 +169,13 @@
             <span class="login-logo">🛒</span>
             <div class="login-title">Le Mie Card Supermercato</div>
             <div class="login-subtitle">Accedi per gestire le tue card fedeltà in modo privato</div>
-            <button class="google-btn" id="googleLoginBtn">
+            <div class="privacy-check">
+                <input type="checkbox" id="privacyConsent">
+                <label for="privacyConsent">
+                    Ho letto e accetto la <a href="privacy.html" target="_blank">Privacy Policy</a>. Comprendo che i miei dati saranno trattati per il funzionamento dell'app.
+                </label>
+            </div>
+            <button class="google-btn" id="googleLoginBtn" disabled>
                 <svg class="google-icon" viewBox="0 0 48 48">
                     <path fill="#EA4335" d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z"/>
                     <path fill="#4285F4" d="M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.78 7.18l7.73 6c4.51-4.18 7.09-10.36 7.09-17.65z"/>
@@ -369,6 +380,12 @@
         const scannerModalClose = document.getElementById('scannerModalClose');
 
         // ─── AUTH ───
+        // ─── CONSENSO PRIVACY ───
+        const privacyConsent = document.getElementById('privacyConsent');
+        privacyConsent.addEventListener('change', () => {
+            googleLoginBtn.disabled = !privacyConsent.checked;
+        });
+
         getRedirectResult(auth).catch(err => console.error('Redirect error:', err));
 
         onAuthStateChanged(auth, (user) => {
