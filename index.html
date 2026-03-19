@@ -48,7 +48,7 @@
         .toggle-btn:hover { transform: scale(1.1); box-shadow: 0 5px 16px rgba(102,126,234,0.5); }
         .toggle-btn.active { background: linear-gradient(135deg, #f59e0b 0%, #ef4444 100%); box-shadow: 0 3px 10px rgba(239,68,68,0.4); }
         .toggle-btn.active:hover { box-shadow: 0 5px 16px rgba(239,68,68,0.5); }
-        .add-card-btn { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: #ffff00 ; border: none; padding: 16px 0; border-radius: 14px; font-size: 18px; font-weight: 600; cursor: pointer; display: none; transition: transform 0.2s, box-shadow 0.2s; width: 100%; max-width: 500px; margin: 0 auto 24px; box-shadow: 0 6px 20px rgba(102,126,234,0.4); letter-spacing: 0.5px; }
+        .add-card-btn { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; border: none; padding: 16px 0; border-radius: 14px; font-size: 18px; font-weight: 600; cursor: pointer; display: none; transition: transform 0.2s, box-shadow 0.2s; width: 100%; max-width: 500px; margin: 0 auto 24px; box-shadow: 0 6px 20px rgba(102,126,234,0.4); letter-spacing: 0.5px; }
         .add-card-btn:hover { transform: translateY(-3px); box-shadow: 0 10px 28px rgba(102,126,234,0.5); }
         .add-card-btn.visible { display: block; }
         .search-container { max-width: 600px; margin: 0 auto 30px; }
@@ -148,6 +148,12 @@
         .btn-delete-account:hover { background: #fee2e2; }
         .user-info { cursor: pointer; }
         .user-info:hover { background: #e5e7eb; }
+        .btn-export { width: 100%; padding: 12px; background: white; color: #667eea; border: 2px solid #667eea; border-radius: 10px; font-size: 15px; font-weight: 600; cursor: pointer; transition: all 0.2s; display: flex; align-items: center; justify-content: center; gap: 8px; }
+        .btn-export:hover { background: #f0f4ff; }
+        .btn-import { width: 100%; padding: 12px; background: white; color: #10b981; border: 2px solid #10b981; border-radius: 10px; font-size: 15px; font-weight: 600; cursor: pointer; transition: all 0.2s; display: flex; align-items: center; justify-content: center; gap: 8px; }
+        .btn-import:hover { background: #f0fdf4; }
+        .import-progress { display: none; font-size: 13px; color: #10b981; text-align: center; padding: 8px; }
+        .import-progress.visible { display: block; }
 
         /* ─── SCANNER MODAL ─── */
         .scanner-modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.95); z-index: 3000; align-items: center; justify-content: center; padding: 20px; flex-direction: column; gap: 20px; }
@@ -287,6 +293,15 @@
                 Utilizzando questa app accetti la nostra
                 <a href="#" id="privacyLink">Privacy Policy</a>.
             </div>
+            <div class="account-divider"></div>
+            <button class="btn-export" id="exportBtn">
+                📤 Esporta le mie card (JSON)
+            </button>
+            <label class="btn-import" style="cursor:pointer">
+                📥 Importa card da file JSON
+                <input type="file" id="importFile" accept=".json" style="display:none">
+            </label>
+            <div class="import-progress" id="importProgress">⏳ Importazione in corso...</div>
             <div class="account-divider"></div>
             <button class="btn-delete-account" id="deleteAccountBtn">
                 🗑️ Elimina account e tutti i dati
@@ -763,6 +778,91 @@
                     deleteAccountBtn.textContent = '🗑️ Elimina account e tutti i dati';
                     alert('Errore durante l\'eliminazione: ' + error.message);
                 }
+            }
+        });
+
+
+        // ─── EXPORT ───
+        const exportBtn = document.getElementById('exportBtn');
+
+        exportBtn.addEventListener('click', () => {
+            if (!cards.length) { alert('Non hai card da esportare!'); return; }
+
+            const exportData = {
+                version: 1,
+                exportedAt: new Date().toISOString(),
+                exportedBy: currentUser.email,
+                cards: cards.map(c => ({
+                    name: c.name,
+                    barcode: c.barcode || null,
+                    imageUrl: c.imageUrl || null,
+                    createdAt: c.createdAt || null
+                }))
+            };
+
+            const blob = new Blob([JSON.stringify(exportData, null, 2)], { type: 'application/json' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `card-supermercato-${new Date().toISOString().slice(0,10)}.json`;
+            a.click();
+            URL.revokeObjectURL(url);
+        });
+
+        // ─── IMPORT ───
+        const importFile     = document.getElementById('importFile');
+        const importProgress = document.getElementById('importProgress');
+
+        importFile.addEventListener('change', async (e) => {
+            const file = e.target.files[0];
+            if (!file) return;
+
+            try {
+                const text = await file.text();
+                const data = JSON.parse(text);
+
+                // Validazione struttura
+                if (!data.cards || !Array.isArray(data.cards)) {
+                    alert('File non valido. Assicurati di usare un file esportato da questa app.');
+                    return;
+                }
+
+                const toImport = data.cards.filter(c => c.name);
+                if (!toImport.length) { alert('Nessuna card trovata nel file.'); return; }
+
+                const confirmed = confirm(
+                    `Trovate ${toImport.length} card nel file.\n\nEsportate da: ${data.exportedBy || 'sconosciuto'}\n\nVuoi importarle?`
+                );
+                if (!confirmed) { importFile.value = ''; return; }
+
+                importProgress.classList.add('visible');
+                const cardsRef = collection(db, `users/${currentUser.uid}/cards`);
+                let imported = 0;
+
+                for (const card of toImport) {
+                    await addDoc(cardsRef, {
+                        name: card.name,
+                        barcode: card.barcode || null,
+                        imageUrl: card.imageUrl || null,
+                        createdAt: Date.now(),
+                        updatedAt: Date.now(),
+                        importedFrom: data.exportedBy || null
+                    });
+                    imported++;
+                    importProgress.textContent = `⏳ Importazione ${imported}/${toImport.length}...`;
+                }
+
+                importProgress.classList.remove('visible');
+                importFile.value = '';
+                accountPanel.classList.remove('visible');
+                await loadCards();
+                alert(`✅ ${imported} card importate con successo!`);
+
+            } catch (err) {
+                importProgress.classList.remove('visible');
+                importFile.value = '';
+                console.error('Errore import:', err);
+                alert('Errore durante l\'importazione: ' + err.message);
             }
         });
 
