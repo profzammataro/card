@@ -14,13 +14,25 @@
 
     <!-- iOS Install Banner -->
     <div class="ios-banner" id="iosBanner">
-        <div class="ios-banner-icon">🛒</div>
-        <div class="ios-banner-text">
+        <div class="ios-banner-header">
+            <div class="ios-banner-icon">🛒</div>
             <div class="ios-banner-title">Installa Scard sul tuo iPhone!</div>
-            <div class="ios-banner-sub">Tocca <span>⬆️ Condividi</span> in basso, poi <span>"Aggiungi a schermata Home"</span></div>
+            <button class="ios-banner-close" id="iosBannerClose">×</button>
         </div>
-        <button class="ios-banner-close" id="iosBannerClose">×</button>
-        <div class="ios-banner-arrow"></div>
+        <div class="ios-banner-steps">
+            <div class="ios-banner-step">
+                <div class="ios-banner-step-num">1</div>
+                <div>Tocca l'icona <b>⬆️ Condividi</b> del browser Safari</div>
+            </div>
+            <div class="ios-banner-step">
+                <div class="ios-banner-step-num">2</div>
+                <div>Scorri e seleziona <b>"Aggiungi a schermata Home"</b></div>
+            </div>
+            <div class="ios-banner-step">
+                <div class="ios-banner-step-num">3</div>
+                <div>Tocca <b>"Aggiungi"</b> in alto a destra</div>
+            </div>
+        </div>
     </div>
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -31,15 +43,16 @@
         }
 
         /* ─── IOS INSTALL BANNER ─── */
-        .ios-banner { display: none; position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%); width: calc(100% - 40px); max-width: 420px; background: white; border-radius: 16px; padding: 16px 18px; box-shadow: 0 8px 30px rgba(0,0,0,0.2); z-index: 9999; align-items: center; gap: 14px; }
+        .ios-banner { display: none; position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%); width: calc(100% - 40px); max-width: 420px; background: white; border-radius: 16px; padding: 16px 18px; box-shadow: 0 8px 30px rgba(0,0,0,0.25); z-index: 9999; flex-direction: column; gap: 12px; border: 1px solid #e5e7eb; }
         .ios-banner.visible { display: flex; }
-        .ios-banner-icon { font-size: 32px; flex-shrink: 0; }
-        .ios-banner-text { flex: 1; }
-        .ios-banner-title { font-size: 15px; font-weight: 700; color: #333; margin-bottom: 4px; }
-        .ios-banner-sub { font-size: 13px; color: #666; line-height: 1.4; }
-        .ios-banner-sub span { color: #007aff; font-weight: 600; }
-        .ios-banner-close { background: none; border: none; font-size: 20px; color: #aaa; cursor: pointer; flex-shrink: 0; padding: 4px; }
-        .ios-banner-arrow { position: absolute; bottom: -10px; left: 50%; transform: translateX(-50%); width: 0; height: 0; border-left: 10px solid transparent; border-right: 10px solid transparent; border-top: 10px solid white; }
+        .ios-banner-header { display: flex; align-items: center; gap: 12px; }
+        .ios-banner-icon { font-size: 28px; flex-shrink: 0; }
+        .ios-banner-title { font-size: 15px; font-weight: 700; color: #333; flex: 1; }
+        .ios-banner-close { background: none; border: none; font-size: 22px; color: #aaa; cursor: pointer; flex-shrink: 0; }
+        .ios-banner-steps { display: flex; flex-direction: column; gap: 8px; }
+        .ios-banner-step { display: flex; align-items: center; gap: 10px; font-size: 13px; color: #555; line-height: 1.4; }
+        .ios-banner-step-num { background: #007aff; color: white; border-radius: 50%; width: 20px; height: 20px; display: flex; align-items: center; justify-content: center; font-size: 11px; font-weight: 700; flex-shrink: 0; }
+        .ios-banner-step b { color: #333; }
 
         /* ─── LOGIN ─── */
         .login-screen { display: flex; align-items: center; justify-content: center; min-height: 100vh; padding: 20px; }
